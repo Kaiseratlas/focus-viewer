@@ -5,11 +5,21 @@ import { FocusContainer } from './components/FocusContainer';
 import Viewport from './components/Viewport';
 import * as PIXI from 'pixi.js';
 import mut from './images/focus_link_exclusive.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from './store';
+import {
+  fetchFocuses,
+  selectAllFocuses,
+} from '../features/focuses/focusesSlice';
 
 function App() {
-  const { isLoading, error, data } = useQuery<any[]>('repoData', () =>
-    fetch('./assets/0.20.1/trees/LEB_focus.json').then((res) => res.json()),
-  );
+  const data = useSelector(selectAllFocuses);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchFocuses({ treeId: 'LEB_focus', version: '0.20.1' }));
+  }, []);
 
   const focusMap = useMemo(() => {
     if (!data) {
