@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
     "paths": {
-      "react": [ "./node_modules/@types/react" ]
+      "react": ["./node_modules/@types/react"],
     },
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -23,7 +20,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

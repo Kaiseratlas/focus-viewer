@@ -96,7 +96,7 @@ const FocusContainer: FC<Props> = (props) => {
             onMount(focus.id, instance);
           }}
           anchor={0.5}
-          image={`./assets/0.20.1/icons/${focus.icon}.png`}
+          image={`${location.origin}/assets/0.20.1/icons/${focus.icon}.png`}
         />
         {/*<Graphics draw={draw} />*/}
 

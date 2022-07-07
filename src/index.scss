@@ -1,0 +1,14 @@
+@import "~normalize.css/normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/core/lib/scss/variables";
+@import "../node_modules/@fontsource/ubuntu/500.css";
+
+body {
+  margin: 0;
+  background: #1d2021;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

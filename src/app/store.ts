@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import focusesReducer from '../features/focuses/focusesSlice';
-import treesReducer from '../features/trees/treesSlice';
 import createSagaMiddleware from 'redux-saga';
-import rootSaga from '../app/root.saga';
 import logger from 'redux-logger';
+
+import { default as focusesReducer } from '../features/focuses';
+import treesReducer from '../features/trees/trees.slice';
+import rootSaga from '../app/root.saga';
 
 const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({

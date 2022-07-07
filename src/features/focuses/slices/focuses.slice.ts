@@ -1,37 +1,14 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import { createRoutine } from 'redux-saga-routines';
-import { RootState } from '../../app/store';
 
-type FocusTreeId = string;
-type ProductVersion = string;
-
-interface FetchFocusesTriggerPayload {
-  treeId: FocusTreeId;
-  version: ProductVersion;
-}
-
-type Focus = {
-  readonly id: string;
-  readonly prerequisiteFocusIds: string[];
-  readonly relativePositionId: string;
-  readonly mutuallyExclusive: { focus: string } | null;
-};
+import { RootState } from '../../../app/store';
+import { Focus } from '../typings';
+import { fetchFocuses } from '../routines';
 
 const focusesAdapter = createEntityAdapter<Focus>();
 
-export const fetchFocuses = createRoutine('FETCH_FOCUSES', {
-  trigger: (payload: FetchFocusesTriggerPayload) => payload,
-  success: (payload: Focus[]) => payload,
-});
-
-export interface FocusesState {
+interface FocusesState {
   data: ReturnType<typeof focusesAdapter.getInitialState>;
 }
-
-console.log(
-  'focusesAdapter.getInitialState()',
-  focusesAdapter.getInitialState(),
-);
 
 const initialState: FocusesState = {
   data: focusesAdapter.getInitialState(),
@@ -56,5 +33,3 @@ export const {
   selectEntities: selectFocusEntities,
   selectAll: selectAllFocuses,
 } = focusesAdapter.getSelectors<RootState>((state) => state.focuses.data);
-
-export default focusesSlice.reducer;

@@ -10,8 +10,6 @@ export const focusNameStyle = new TextStyle({
   wordWrapWidth: 120,
 });
 
-
-
 export const debugCoordsStyle = new TextStyle({
   fontFamily: '"Ubuntu", serif',
   fontSize: 12,

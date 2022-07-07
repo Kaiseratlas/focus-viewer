@@ -1,22 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
+import './index.scss';
+import { Provider } from 'react-redux';
+import { FocusStyleManager } from '@blueprintjs/core';
+
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './app/store';
-import { Provider } from 'react-redux';
 
-import { QueryClient, QueryClientProvider } from 'react-query';
-
-const queryClient = new QueryClient();
+FocusStyleManager.onlyShowFocusOnTabs();
 
 ReactDOM.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

@@ -1,6 +1,6 @@
 import { all, fork } from 'redux-saga/effects';
-import focusWatcher from '../features/focuses/focuses.saga';
+import { fetchFocusesWatcher } from '../features/focuses';
 
 export default function* rootSaga() {
-  yield all([fork(focusWatcher)]);
+  yield all([fork(fetchFocusesWatcher)]);
 }

@@ -1,8 +1,8 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { fetchFocuses } from './focusesSlice';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
-const api = axios.create({ baseURL: './' });
+import api from '../../../utils/api';
+import { fetchFocuses } from '../routines';
 
 function* fetchFocusesWatcher(action: ReturnType<typeof fetchFocuses.trigger>) {
   try {
@@ -19,6 +19,6 @@ function* fetchFocusesWatcher(action: ReturnType<typeof fetchFocuses.trigger>) {
   }
 }
 
-export default function* focusWatcher() {
+export default function* () {
   yield takeLatest(fetchFocuses.TRIGGER, fetchFocusesWatcher);
 }
