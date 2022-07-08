@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import { Provider } from 'react-redux';
 import { FocusStyleManager } from '@blueprintjs/core';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
@@ -12,11 +13,16 @@ import { store } from './app/store';
 FocusStyleManager.onlyShowFocusOnTabs();
 
 ReactDOM.render(
-  <React.StrictMode>
+  <ErrorBoundary
+    FallbackComponent={({ error, resetErrorBoundary }) => null}
+    onError={(error) => {
+      console.log('error', error)
+    }}
+  >
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
+  </ErrorBoundary>,
   document.getElementById('root'),
 );
 

@@ -1,4 +1,5 @@
 import { createRoutine } from 'redux-saga-routines';
+
 import { Focus, FocusTreeId, ProductVersion } from '../typings';
 
 interface FetchFocusesTriggerPayload {

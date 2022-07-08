@@ -1,8 +1,9 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
+import { RootState } from '../../app/store';
+
 import { Tree, TreeId } from './typings';
 import { fetchTrees } from './routines';
-import { RootState } from '../../app/store';
 
 const treesAdapter = createEntityAdapter<Tree>();
 
@@ -25,12 +26,24 @@ export const treesSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) =>
-    builder.addCase(
-      fetchTrees.SUCCESS,
-      (state, action: ReturnType<typeof fetchTrees.success>) => {
-        treesAdapter.upsertMany(state.data, action.payload);
-      },
-    ),
+    builder
+      .addCase(fetchTrees.TRIGGER, (state) => {
+        state.error = null;
+        state.selected = null;
+        treesAdapter.removeAll(state.data);
+      })
+      .addCase(fetchTrees.REQUEST, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        fetchTrees.SUCCESS,
+        (state, action: ReturnType<typeof fetchTrees.success>) => {
+          treesAdapter.upsertMany(state.data, action.payload);
+        },
+      )
+      .addCase(fetchTrees.FULFILL, (state) => {
+        state.loading = false;
+      }),
 });
 
 export const {

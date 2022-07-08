@@ -10,6 +10,7 @@ specifiers:
   '@types/node': ^16.11.43
   '@types/react': 17.0.2
   '@types/react-dom': 17.0.2
+  '@types/react-highlight-words': ^0.16.4
   '@types/redux-logger': ^3.0.9
   '@types/redux-saga-routines': ^3.1.2
   '@typescript-eslint/eslint-plugin': ^5.0.0
@@ -19,12 +20,15 @@ specifiers:
   eslint-config-prettier: ^8.3.0
   eslint-plugin-import: ^2.26.0
   eslint-plugin-prettier: ^4.0.0
+  formik: ^2.2.9
   normalize.css: ^8.0.1
   pixi-viewport: ^4.34.4
   pixi.js: ^6.4.2
   prettier: ^2.3.2
   react: 17.0.2
   react-dom: 17.0.2
+  react-error-boundary: ^3.1.4
+  react-highlight-words: ^0.18.0
   react-redux: ^8.0.2
   react-router-dom: ^6.3.0
   react-scripts: 5.0.1
@@ -46,6 +50,7 @@ dependencies:
   '@types/node': 16.11.43
   '@types/react': 17.0.2
   '@types/react-dom': 17.0.2
+  '@types/react-highlight-words': 0.16.4
   '@types/redux-logger': 3.0.9
   '@types/redux-saga-routines': 3.1.2
   '@typescript-eslint/eslint-plugin': 5.30.5_f646e16e2de31e818e163bded4698d6b
@@ -55,12 +60,15 @@ dependencies:
   eslint-config-prettier: 8.5.0_eslint@8.19.0
   eslint-plugin-import: 2.26.0_eslint@8.19.0
   eslint-plugin-prettier: 4.2.1_fd2e32b7574349919aac0818c3f895ea
+  formik: 2.2.9_react@17.0.2
   normalize.css: 8.0.1
   pixi-viewport: 4.34.4
   pixi.js: 6.4.2
   prettier: 2.7.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
+  react-error-boundary: 3.1.4_react@17.0.2
+  react-highlight-words: 0.18.0_react@17.0.2
   react-redux: 8.0.2_b091d2bcdea22631d3bacba0196b1e79
   react-router-dom: 6.3.0_react-dom@17.0.2+react@17.0.2
   react-scripts: 5.0.1_169ed54529ef76117589ad2cef1827fb
@@ -2977,6 +2985,12 @@ packages:
       '@types/react': 17.0.47
     dev: false
 
+  /@types/react-highlight-words/0.16.4:
+    resolution: {integrity: sha512-KITBX3xzheQLu2s3bUgLmRE7ekmhc52zRjRTwkKayQARh30L4fjEGzGm7ULK9TuX2LgxWWavZqyQGDGjAHbL3w==}
+    dependencies:
+      '@types/react': 17.0.47
+    dev: false
+
   /@types/react/17.0.2:
     resolution: {integrity: sha512-Xt40xQsrkdvjn1EyWe1Bc0dJLcil/9x2vAuW7ya+PuQip4UYUaXyhzWmAbwRsdMgwOFHpfp7/FFZebDU6Y8VHA==}
     dependencies:
@@ -4596,6 +4610,11 @@ packages:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
     dev: false
 
+  /deepmerge/2.2.1:
+    resolution: {integrity: sha512-R9hc1Xa/NOBi9WRVUWg19rl1UB7Tt4kuPd+thNJgFZoxXsTz7ncaPaeIm+40oSGuP33DfMb4sZt1QIGiJzC4EA==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /deepmerge/4.2.2:
     resolution: {integrity: sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==}
     engines: {node: '>=0.10.0'}
@@ -5601,6 +5620,21 @@ packages:
       mime-types: 2.1.35
     dev: false
 
+  /formik/2.2.9_react@17.0.2:
+    resolution: {integrity: sha512-LQLcISMmf1r5at4/gyJigGn0gOwFbeEAlji+N9InZF6LIMXnFNkO42sCI8Jt84YZggpD4cPWObAZaxpEFtSzNA==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      deepmerge: 2.2.1
+      hoist-non-react-statics: 3.3.2
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      react: 17.0.2
+      react-fast-compare: 2.0.4
+      tiny-warning: 1.0.3
+      tslib: 1.14.1
+    dev: false
+
   /forwarded/0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
@@ -5853,6 +5887,10 @@ packages:
     dependencies:
       capital-case: 1.0.4
       tslib: 2.4.0
+    dev: false
+
+  /highlight-words-core/1.2.2:
+    resolution: {integrity: sha512-BXUKIkUuh6cmmxzi5OIbUJxrG8OAk2MqoL1DtO3Wo9D2faJg2ph5ntyuQeLqaHJmzER6H5tllCDA9ZnNe9BVGg==}
     dev: false
 
   /history/5.3.0:
@@ -7154,6 +7192,10 @@ packages:
       p-locate: 5.0.0
     dev: false
 
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
+
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
     dev: false
@@ -7235,6 +7277,10 @@ packages:
     engines: {node: '>= 4.0.0'}
     dependencies:
       fs-monkey: 1.0.3
+    dev: false
+
+  /memoize-one/4.0.3:
+    resolution: {integrity: sha512-QmpUu4KqDmX0plH4u+tf0riMc1KHE1+lw95cMrLlXQAFOx/xnBtwhZ52XJxd9X2O6kwKBqX32kmhbhlobD0cuw==}
     dev: false
 
   /merge-descriptors/1.0.1:
@@ -8803,12 +8849,37 @@ packages:
       scheduler: 0.20.2
     dev: false
 
+  /react-error-boundary/3.1.4_react@17.0.2:
+    resolution: {integrity: sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==}
+    engines: {node: '>=10', npm: '>=6'}
+    peerDependencies:
+      react: '>=16.13.1'
+    dependencies:
+      '@babel/runtime': 7.18.6
+      react: 17.0.2
+    dev: false
+
   /react-error-overlay/6.0.11:
     resolution: {integrity: sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==}
     dev: false
 
+  /react-fast-compare/2.0.4:
+    resolution: {integrity: sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==}
+    dev: false
+
   /react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
+    dev: false
+
+  /react-highlight-words/0.18.0_react@17.0.2:
+    resolution: {integrity: sha512-5z+46eLPjB4JWgOhuQ0E+6iUPTD1U3amiy5KKjzZmeJ5zyvHr91hnzBT3UHya/KlySm5KRTKpYpba9vs67oO2A==}
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
+    dependencies:
+      highlight-words-core: 1.2.2
+      memoize-one: 4.0.3
+      prop-types: 15.8.1
+      react: 17.0.2
     dev: false
 
   /react-is/16.13.1:
@@ -10015,6 +10086,10 @@ packages:
 
   /thunky/1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
+    dev: false
+
+  /tiny-warning/1.0.3:
+    resolution: {integrity: sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==}
     dev: false
 
   /tmpl/1.0.5:

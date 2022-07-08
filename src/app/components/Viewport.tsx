@@ -23,7 +23,7 @@ const PixiComponentViewport = PixiComponent('Viewport', {
       ticker: props.app.ticker,
       interaction: props.app.renderer.plugins.interaction,
     });
-    viewport.drag().pinch().wheel().clampZoom({});
+    viewport.drag().pinch().wheel().clampZoom({ minScale: 0.25, maxScale: 1 });
 
     return viewport;
   },

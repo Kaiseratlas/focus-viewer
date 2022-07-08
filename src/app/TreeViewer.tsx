@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useMemo } from 'react';
-import { Container, Graphics, Stage } from '@inlet/react-pixi';
+import { Container, Graphics, Stage, useApp } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import { useDispatch, useSelector } from 'react-redux';
 import useFontFaceObserver from 'use-font-face-observer';
@@ -14,20 +14,21 @@ import { FocusContainer } from './components/FocusContainer';
 import { AppDispatch } from './store';
 
 const TreeViewer: FC = () => {
-  useParams();
+  const { id: treeId = 'LEB_focus' } = useParams<{ id: string }>();
   const data = useSelector(selectAllFocuses);
+  const [app, setApp] = React.useState<PIXI.Application>();
 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchFocuses({ treeId: 'LEB_focus', version: '0.20.1' }));
-  }, []);
+    dispatch(fetchFocuses({ treeId, version: '0.20.1' }));
+  }, [treeId]);
 
   const refMap = new Map<string, PIXI.Sprite>();
 
   const initialFocuses = useMemo(
     () => data?.filter((focus) => !focus.relativePositionId) ?? [],
-    [data],
+    [data, treeId],
   );
 
   const isFontLoaded = useFontFaceObserver([
@@ -44,7 +45,8 @@ const TreeViewer: FC = () => {
     <Stage
       width={window.innerWidth}
       height={window.innerHeight}
-      options={{ backgroundColor: 0x1d2021 }}
+      options={{ backgroundAlpha: 0 }}
+      onMount={setApp}
     >
       <Viewport width={1400} height={1000}>
         <Graphics

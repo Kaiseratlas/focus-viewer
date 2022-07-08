@@ -90,7 +90,7 @@ const FocusContainer: FC<Props> = (props) => {
   return (
     <>
       <Container position={[focus.x * 95, focus.y * 140]} {...containerProps}>
-        <Container position={[0, 50]} interactive pointerdown={handleClick}>
+        <Container position={[0, 50]} interactive pointerover={handleClick}>
           <Sprite anchor={0.5} image={focusUnavailableBackground} />
           <Text anchor={0.5} y={3} text={focus.name} style={focusNameStyle} />
         </Container>
