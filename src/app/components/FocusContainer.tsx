@@ -13,8 +13,9 @@ import {
   Sprite,
   Text,
 } from '@inlet/react-pixi';
-import { debugCoordsStyle, focusNameStyle } from '../const';
 import * as PIXI from 'pixi.js';
+
+import { debugCoordsStyle, focusNameStyle } from '../const';
 import focusUnavailableBackground from '../images/focus_unavailable_bg.png';
 
 interface Props extends _ReactPixi.IContainer {
@@ -84,10 +85,12 @@ const FocusContainer: FC<Props> = (props) => {
   const childFocuses =
     allFocuses?.filter((x) => x.relativePositionId === focus.id) ?? [];
 
+  const handleClick = () => console.log('click');
+
   return (
     <>
       <Container position={[focus.x * 95, focus.y * 140]} {...containerProps}>
-        <Container position={[0, 50]}>
+        <Container position={[0, 50]} interactive pointerdown={handleClick}>
           <Sprite anchor={0.5} image={focusUnavailableBackground} />
           <Text anchor={0.5} y={3} text={focus.name} style={focusNameStyle} />
         </Container>
