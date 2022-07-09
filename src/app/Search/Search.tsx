@@ -4,25 +4,31 @@ import { useFormik } from 'formik';
 import { ItemListPredicate, ItemRenderer, Suggest2 } from '@blueprintjs/select';
 import { useDispatch, useSelector } from 'react-redux';
 import Highlighter from 'react-highlight-words';
-import { useNavigate } from 'react-router-dom';
+import {
+  useNavigate,
+  useSearchParams,
+  createSearchParams,
+} from 'react-router-dom';
 
-import { fetchTrees, Tree } from '../features/trees';
-import { selectAllTrees } from '../features/trees/trees.slice';
+import { fetchTrees, Tree } from '../../features/trees';
+import { selectAllTrees } from '../../features/trees/trees.slice';
+import { AppDispatch, RootState } from '../store';
 
 import styles from './Search.module.scss';
-import { AppDispatch, RootState } from './store';
 
 const TreeSuggest = Suggest2.ofType<Tree>();
 
 export const treeListPredicate: ItemListPredicate<Tree> = (query, trees) => {
   if (!query) {
-    return trees;
+    return trees.slice(0, 7);
   }
-  return trees.filter((tree) =>
-    [tree.id, tree.name]
-      .map((value) => value?.toLowerCase())
-      .some((value) => value?.includes(query.toLowerCase())),
-  );
+  return trees
+    .filter((tree) =>
+      [tree.id, tree.name]
+        .map((value) => value?.toLowerCase())
+        .some((value) => value?.includes(query.toLowerCase())),
+    )
+    .slice(0, 7);
 };
 
 export const treeRenderer: ItemRenderer<Tree> = (
@@ -67,6 +73,8 @@ const Search: FC = () => {
 
   const trees = useSelector(selectAllTrees);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const currentMode = searchParams.get('mode');
 
   useEffect(() => {
     handleSubmit();
@@ -79,11 +87,28 @@ const Search: FC = () => {
         disabled={loading}
         className={styles.search}
         items={trees}
-        onItemSelect={(tree) => navigate(`/trees/${tree.id}`)}
+        onItemSelect={(tree) =>
+          navigate({
+            pathname: `/trees/${tree.id}`,
+            search: currentMode
+              ? createSearchParams({ mode: currentMode }).toString()
+              : '',
+          })
+        }
         itemListPredicate={treeListPredicate}
         itemRenderer={treeRenderer}
         inputValueRenderer={(tree) => tree.name}
-        popoverProps={{ position: 'bottom', matchTargetWidth: true }}
+        popoverProps={{
+          position: 'bottom',
+          matchTargetWidth: true,
+          transitionDuration: 0,
+          hasBackdrop: true,
+          backdropProps: {
+            style: {
+              marginTop: 50,
+            },
+          },
+        }}
         inputProps={{ leftIcon: 'search' }}
       />
     </form>

@@ -9,7 +9,8 @@ interface FetchFocusesTriggerPayload {
 
 const fetchFocuses = createRoutine('FETCH_FOCUSES', {
   trigger: (payload: FetchFocusesTriggerPayload) => payload,
-  success: (payload: Focus[]) => payload,
+  success: (data: Focus[]) => data,
+  failure: (error: Error) => error,
 });
 
 export default fetchFocuses;

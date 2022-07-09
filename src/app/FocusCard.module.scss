@@ -1,0 +1,32 @@
+.focus-card {
+  height: 150px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  &__tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  &__image {
+    flex: 1;
+    background: url('./images/goal_unknown.png') center center no-repeat;
+    animation: fadeIn ease 0.5s;
+  }
+
+  &__name {
+    margin: 10px;
+    text-align: center;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

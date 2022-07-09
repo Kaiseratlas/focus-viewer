@@ -12,11 +12,14 @@ import {
   Graphics,
   Sprite,
   Text,
+  useApp,
 } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 
-import { debugCoordsStyle, focusNameStyle } from '../const';
+import { debugCoordsStyle, focusNameStyle, focusNameStyle2 } from '../const';
 import focusUnavailableBackground from '../images/focus_unavailable_bg.png';
+import focusCanStartBackground from '../images/focus_can_start_bg.png';
+import { FocusView } from './FocusView';
 
 interface Props extends _ReactPixi.IContainer {
   focus: any;
@@ -26,6 +29,11 @@ interface Props extends _ReactPixi.IContainer {
 
 const FocusContainer: FC<Props> = (props) => {
   const { focus, allFocuses, onMount, ...containerProps } = props;
+
+  // app.loader.onError.add((error, loader, resource) => {
+  //   console.log('ccc', error, loader, resource);
+  //   return {};
+  // });
 
   const draw = useCallback(
     (g: PIXI.Graphics) => {
@@ -85,22 +93,12 @@ const FocusContainer: FC<Props> = (props) => {
   const childFocuses =
     allFocuses?.filter((x) => x.relativePositionId === focus.id) ?? [];
 
-  const handleClick = () => console.log('click');
+  const handleClick = (...args: any) => console.log('click', ...args);
 
   return (
     <>
       <Container position={[focus.x * 95, focus.y * 140]} {...containerProps}>
-        <Container position={[0, 50]} interactive pointerover={handleClick}>
-          <Sprite anchor={0.5} image={focusUnavailableBackground} />
-          <Text anchor={0.5} y={3} text={focus.name} style={focusNameStyle} />
-        </Container>
-        <Sprite
-          ref={(instance) => {
-            onMount(focus.id, instance);
-          }}
-          anchor={0.5}
-          image={`${location.origin}/assets/0.20.1/icons/${focus.icon}.png`}
-        />
+        <FocusView data={focus} onMount={onMount} />
         {/*<Graphics draw={draw} />*/}
 
         {childFocuses.map((f) => {

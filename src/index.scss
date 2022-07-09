@@ -1,13 +1,15 @@
-@import "~normalize.css/normalize.css";
-@import "~@blueprintjs/core/lib/css/blueprint.css";
-@import "~@blueprintjs/core/lib/scss/variables";
-@import "../node_modules/@fontsource/ubuntu/500.css";
+@import '~normalize.css/normalize.css';
+@import '~@blueprintjs/core/lib/css/blueprint.css';
+@import '~@blueprintjs/core/lib/scss/variables';
+@import '../node_modules/@fontsource/ubuntu/500.css';
 
 body {
-  margin: 0;
+  margin: $pt-navbar-height 0;
   background: #1d2021;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 input:focus {
-  outline:none;
+  outline: none;
 }

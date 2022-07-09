@@ -8,10 +8,14 @@ const focusesAdapter = createEntityAdapter<Focus>();
 
 interface FocusesState {
   data: ReturnType<typeof focusesAdapter.getInitialState>;
+  loading: boolean;
+  error: Error | null;
 }
 
 const initialState: FocusesState = {
   data: focusesAdapter.getInitialState(),
+  loading: false,
+  error: null,
 };
 
 export const focusesSlice = createSlice({
@@ -19,12 +23,29 @@ export const focusesSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) =>
-    builder.addCase(
-      fetchFocuses.SUCCESS,
-      (state, action: ReturnType<typeof fetchFocuses.success>) => {
-        focusesAdapter.upsertMany(state.data, action.payload);
-      },
-    ),
+    builder
+      .addCase(fetchFocuses.TRIGGER, (state) => {
+        state.error = null;
+        focusesAdapter.removeAll(state.data);
+      })
+      .addCase(fetchFocuses.REQUEST, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        fetchFocuses.SUCCESS,
+        (state, action: ReturnType<typeof fetchFocuses.success>) => {
+          focusesAdapter.upsertMany(state.data, action.payload);
+        },
+      )
+      .addCase(
+        fetchFocuses.FAILURE,
+        (state, action: ReturnType<typeof fetchFocuses.failure>) => {
+          state.error = action.payload;
+        },
+      )
+      .addCase(fetchFocuses.FULFILL, (state) => {
+        state.loading = false;
+      }),
 });
 
 export const {

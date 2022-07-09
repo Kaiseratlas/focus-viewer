@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 import api from '../../../utils/api';
 import { fetchFocuses } from '../routines';
@@ -13,7 +13,7 @@ function* fetchFocusesWatcher(action: ReturnType<typeof fetchFocuses.trigger>) {
     const { data }: AxiosResponse<any[]> = yield call(api.get, url);
     yield put(fetchFocuses.success(data));
   } catch (error) {
-    yield put(fetchFocuses.failure(error));
+    yield put(fetchFocuses.failure(error as AxiosError));
   } finally {
     yield put(fetchFocuses.fulfill());
   }
