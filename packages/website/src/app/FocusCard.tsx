@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { Card, CardProps, Tag } from '@blueprintjs/core';
+import classNames from 'classnames';
 
 import { Focus } from '../features/focuses';
 
 import styles from './FocusCard.module.scss';
-import classNames from 'classnames';
 
 interface Props extends CardProps {
   focus: Focus;
@@ -17,8 +17,12 @@ const FocusCard: FC<Props> = (props) => {
   return (
     <div>
       <Card className={styles['focus-card']} {...cardProps}>
-        <Tag className={styles['focus-card__tag']} minimal>
-          10 days
+        <Tag
+          className={styles['focus-card__tag']}
+          minimal
+          intent={focus.cost === 0 ? 'warning' : 'none'}
+        >
+          {focus.cost} day{focus.cost === 1 ? '' : 's'}
         </Tag>
         <div
           className={styles['focus-card__image']}

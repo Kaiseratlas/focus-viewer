@@ -42,6 +42,7 @@ const FocusView: FC<Props> = (props) => {
       interactive: true,
       pointerover: () => setHovered(true),
       pointerout: () => setHovered(false),
+      pointerdown: () => console.log(data),
     }),
     [],
   );
@@ -59,11 +60,6 @@ const FocusView: FC<Props> = (props) => {
       </Container>
       <Sprite
         ref={ref}
-        // ref={(instance) => {
-        //   if (onMount) {
-        //     onMount(data.id, instance);
-        //   }
-        // }}
         anchor={0.5}
         image={unknownGoalIcon}
         {...interactiveProps}

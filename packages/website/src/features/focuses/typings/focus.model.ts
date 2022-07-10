@@ -5,6 +5,7 @@ export type Focus = {
   readonly id: FocusTreeId;
   readonly name: string;
   readonly icon: string;
+  readonly cost: number;
   readonly prerequisiteFocusIds: string[];
   readonly relativePositionId: string;
   readonly mutuallyExclusive: { focus: string } | null;
