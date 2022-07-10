@@ -4,7 +4,7 @@ import logger from 'redux-logger';
 
 import { default as focusesReducer } from '../features/focuses';
 import treesReducer from '../features/trees/trees.slice';
-import rootSaga from '../app/root.saga';
+import rootSaga from './root.saga';
 
 const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
