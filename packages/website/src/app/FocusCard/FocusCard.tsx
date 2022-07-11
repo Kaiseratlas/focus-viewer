@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Card, CardProps, Tag } from '@blueprintjs/core';
 import classNames from 'classnames';
 
-import { Focus } from '../features/focuses';
+import { Focus } from '../../features/focuses';
 
 import styles from './FocusCard.module.scss';
 

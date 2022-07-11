@@ -1,0 +1,13 @@
+.table {
+  overflow: auto;
+
+  table {
+    width: 100%;
+
+    thead {
+      position: sticky; top: 0; z-index: 1;
+      background: #1d2021;
+      background: linear-gradient(180deg, rgba(29,32,33,1) 0%, rgba(255,255,255,0) 100%);
+    }
+  }
+}

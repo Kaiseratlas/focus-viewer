@@ -21,8 +21,8 @@ import mut from './images/focus_link_exclusive.png';
 import { FocusContainer } from './components/FocusContainer';
 import { AppDispatch, RootState } from './store';
 import { FocusTree } from './FocusTree';
-import { FocusGrid } from "./FocusGrid";
-import {FocusTable} from "./FocusTable";
+import { FocusGrid } from './FocusGrid';
+import { FocusTable } from './FocusTable';
 
 enum ViewMode {
   TREE = 'tree',

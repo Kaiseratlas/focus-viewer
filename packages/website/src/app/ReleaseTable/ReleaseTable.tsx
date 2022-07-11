@@ -1,59 +1,41 @@
 import React, { FC } from 'react';
 import { Column, useTable } from 'react-table';
+import { useSelector } from 'react-redux';
+import { DateTime } from 'luxon';
 
-import { Focus } from '../features/focuses';
+import { Table } from '../Table';
+import { selectAllReleases } from '../../features/releases/releases.slice';
+import { Release } from '../../features/releases';
 
-import { Table } from './Table';
-
-interface Props {
-  data: Focus[];
-}
-
-const FocusTable: FC<Props> = ({ data }) => {
-  const columns = React.useMemo<Column<Focus>[]>(
+const ReleaseTable: FC = () => {
+  const columns = React.useMemo<Column<Release>[]>(
     () => [
+      {
+        Header: 'Version',
+        accessor: 'version',
+      },
       {
         Header: 'Name',
         accessor: 'name',
       },
       {
-        Header: 'Focus ID',
-        accessor: 'id',
+        Header: 'Released At',
+        accessor: 'date',
+        Cell: ({ value: date }) => DateTime.fromJSDate(date).toLocaleString(),
       },
-      {
-        Header: 'Icon ID',
-        accessor: 'icon',
-      },
-      {
-        Header: 'Cost',
-        accessor: 'cost',
-        Cell: ({ value: cost }) => (
-          <span style={{ float: 'right' }}>{cost}</span>
-        ),
-      },
-      // {
-      //   Header: 'Is available if capitulated?',
-      //   accessor: 'availableIfCapitulated',
-      //   Cell: ({ value: availableIfCapitulated }) => (
-      //     <>
-      //       <Checkbox
-      //         checked={availableIfCapitulated}
-      //         style={{ margin: 0 }}
-      //         disabled
-      //       />
-      //     </>
-      //   ),
-      // },
     ],
     [],
   );
+
+  const data = useSelector(selectAllReleases);
+
   const tableInstance = useTable({ columns, data });
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
 
   return (
-    <Table striped {...getTableProps()}>
+    <Table interactive striped {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
@@ -79,4 +61,4 @@ const FocusTable: FC<Props> = ({ data }) => {
   );
 };
 
-export { FocusTable };
+export default ReleaseTable;

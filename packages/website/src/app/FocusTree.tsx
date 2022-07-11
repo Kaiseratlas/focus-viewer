@@ -20,7 +20,7 @@ import upDownOptional from './images/focus_link_up_down-optional.png';
 import leftRight from './images/focus_link_left_right.png';
 import { FocusContainer } from './components/FocusContainer';
 
-const useWindowSize = () => {
+export const useWindowSize = () => {
   const [size, setSize] = useState([0, 0]);
   useLayoutEffect(() => {
     const updateSize = () => {
