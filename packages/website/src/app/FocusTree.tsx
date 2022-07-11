@@ -140,13 +140,14 @@ const FocusTree: FC<Props> = ({ focuses: data }) => {
 
 
           g.lineStyle(2, 0x8ea2b6, 0.25);
-          g.lineTo(parentFocusSpritePosition.x, y);
+
 
           optionalFocuses.forEach((ff) => {
             const ff2 = refMap.get(ff.id);
             if (ff2) {
               const b2 = ff2.getGlobalPosition();
 
+              g.lineTo(parentFocusSpritePosition.x, y);
               g.lineTo(b2.x, y);
               g.lineTo(b2.x, b2.y);
 

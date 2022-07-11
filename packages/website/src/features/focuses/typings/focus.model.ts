@@ -9,4 +9,5 @@ export type Focus = {
   readonly prerequisiteFocusIds: string[];
   readonly relativePositionId: string;
   readonly mutuallyExclusive: { focus: string } | null;
+  readonly availableIfCapitulated: boolean;
 };

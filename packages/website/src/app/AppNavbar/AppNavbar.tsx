@@ -10,11 +10,13 @@ import {
 } from '@blueprintjs/core';
 
 import { Search } from '../Search/Search';
+import { ReleaseSelect } from '../ReleaseSelect/ReleaseSelect';
 
 import styles from './AppNavbar.module.scss';
 
 const AppNavbar: FC = () => {
   const [opened, setOpened] = useState(false);
+
   return (
     <>
       <Navbar className={styles['app-navbar']} fixedToTop>
@@ -30,9 +32,7 @@ const AppNavbar: FC = () => {
           <Search />
         </Navbar.Group>
         <Navbar.Group align="right">
-          <Button outlined rightIcon="caret-down">
-            0.20.1
-          </Button>
+          <ReleaseSelect />
         </Navbar.Group>
       </Navbar>
       <Drawer

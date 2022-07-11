@@ -4,6 +4,8 @@ import logger from 'redux-logger';
 
 import { default as focusesReducer } from '../features/focuses';
 import treesReducer from '../features/trees/trees.slice';
+import releasesReducer from '../features/releases/releases.slice';
+
 import rootSaga from './root.saga';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -11,6 +13,7 @@ export const store = configureStore({
   reducer: {
     focuses: focusesReducer,
     trees: treesReducer,
+    releases: releasesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

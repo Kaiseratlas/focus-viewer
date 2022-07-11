@@ -22,6 +22,7 @@ import { FocusContainer } from './components/FocusContainer';
 import { AppDispatch, RootState } from './store';
 import { FocusTree } from './FocusTree';
 import { FocusGrid } from "./FocusGrid";
+import {FocusTable} from "./FocusTable";
 
 enum ViewMode {
   TREE = 'tree',
@@ -92,6 +93,7 @@ const TreeViewer: FC = () => {
       </div>
       {currentMode === ViewMode.TREE && <FocusTree focuses={data} />}
       {currentMode === ViewMode.GRID && <FocusGrid focuses={data} />}
+      {currentMode === ViewMode.TABLE && <FocusTable data={data} />}
     </>
   );
 };
