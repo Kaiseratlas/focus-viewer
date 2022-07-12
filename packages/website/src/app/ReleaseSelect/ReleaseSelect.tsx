@@ -75,7 +75,9 @@ const ReleaseSelect: FC = () => {
       items={releases}
       itemRenderer={releaseRenderer}
       itemListPredicate={releaseListPredicate}
-      onItemSelect={() => {}}
+      onItemSelect={() => {
+
+      }}
     >
       <Button outlined rightIcon="caret-down">
         0.20.1

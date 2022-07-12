@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import { TreeViewer } from './TreeViewer';
+import { TreePage } from './TreePage/TreePage';
 import { Layout } from './Layout/Layout';
 import { ReleaseTable } from './ReleaseTable';
 
@@ -11,7 +11,7 @@ const App: FC = () => (
     <Layout>
       <Routes>
         <Route path="/releases" element={<ReleaseTable />} />
-        <Route path="/trees/:id" element={<TreeViewer />} />
+        <Route path="/trees/:id" element={<TreePage />} />
       </Routes>
     </Layout>
   </Router>

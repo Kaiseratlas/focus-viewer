@@ -1,6 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
-import { Container, Graphics, Stage, useApp } from '@inlet/react-pixi';
-import * as PIXI from 'pixi.js';
+import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useFontFaceObserver from 'use-font-face-observer';
 import {
@@ -10,36 +8,27 @@ import {
   IconName,
   Navbar,
   Spinner,
-  Toaster,
 } from '@blueprintjs/core';
-import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
-import { fetchFocuses, selectAllFocuses } from '../features/focuses';
+import { fetchFocuses, selectAllFocuses } from '../../features/focuses';
+import { AppDispatch, RootState } from '../store';
+import { FocusTree } from '../FocusTree';
+import { FocusGrid } from '../FocusGrid/FocusGrid';
+import { FocusTable } from '../FocusTable';
 
-import Viewport from './components/Viewport';
-import mut from './images/focus_link_exclusive.png';
-import { FocusContainer } from './components/FocusContainer';
-import { AppDispatch, RootState } from './store';
-import { FocusTree } from './FocusTree';
-import { FocusGrid } from './FocusGrid';
-import { FocusTable } from './FocusTable';
+import { TreeViewMode } from './tree-view-mode.enum';
 
-enum ViewMode {
-  TREE = 'tree',
-  GRID = 'grid',
-  TABLE = 'table',
-}
-
-const ViewModeIcon: Record<ViewMode, IconName> = {
-  [ViewMode.TREE]: 'layout-hierarchy',
-  [ViewMode.GRID]: 'layout-grid',
-  [ViewMode.TABLE]: 'th',
+const ViewModeIcon: Record<TreeViewMode, IconName> = {
+  [TreeViewMode.TREE]: 'layout-hierarchy',
+  [TreeViewMode.GRID]: 'layout-grid',
+  [TreeViewMode.TABLE]: 'th',
 };
 
-const TreeViewer: FC = () => {
+const TreePage: FC = () => {
   const { id: treeId = 'LEB_focus' } = useParams<{ id: string }>();
   const [searchParams, setSearchParams] = useSearchParams({
-    mode: ViewMode.TREE,
+    mode: TreeViewMode.TREE,
   });
   const currentMode = searchParams.get('mode');
   const { loading, error } = useSelector((state: RootState) => state.focuses);
@@ -75,7 +64,7 @@ const TreeViewer: FC = () => {
       <div style={{ height: 50, marginBottom: 10 }}>
         <Navbar.Group>
           <ButtonGroup large>
-            {Object.values(ViewMode).map((mode) => (
+            {Object.values(TreeViewMode).map((mode) => (
               <Button
                 key={mode}
                 icon={ViewModeIcon[mode]}
@@ -91,11 +80,11 @@ const TreeViewer: FC = () => {
           </ButtonGroup>
         </Navbar.Group>
       </div>
-      {currentMode === ViewMode.TREE && <FocusTree focuses={data} />}
-      {currentMode === ViewMode.GRID && <FocusGrid focuses={data} />}
-      {currentMode === ViewMode.TABLE && <FocusTable data={data} />}
+      {currentMode === TreeViewMode.TREE && <FocusTree focuses={data} />}
+      {currentMode === TreeViewMode.GRID && <FocusGrid focuses={data} />}
+      {currentMode === TreeViewMode.TABLE && <FocusTable data={data} />}
     </>
   );
 };
 
-export { TreeViewer };
+export { TreePage };

@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { Card, Elevation } from '@blueprintjs/core';
 
-import { Focus } from '../features/focuses';
+import { Focus } from '../../features/focuses';
 
 import styles from './FocusGrid.module.scss';
-import { FocusCard } from './FocusCard/FocusCard';
+import { FocusCard } from '../FocusCard/FocusCard';
 
 interface Props {
   focuses: Focus[];

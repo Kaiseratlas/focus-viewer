@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 
 import { RootState } from '../../app/store';
 
@@ -24,7 +28,11 @@ const initialState: ReleasesState = {
 export const releasesSlice = createSlice({
   name: 'releases',
   initialState,
-  reducers: {},
+  reducers: {
+    select: (state, action: PayloadAction<Release>) => {
+      state.selected = action.payload.version;
+    },
+  },
   extraReducers: (builder) =>
     builder
       .addCase(fetchReleases.TRIGGER, (state) => {
@@ -34,6 +42,7 @@ export const releasesSlice = createSlice({
       .addCase(
         fetchReleases.SUCCESS,
         (state, action: ReturnType<typeof fetchReleases.success>) => {
+          state.selected = action.payload[0].version;
           releasesAdapter.upsertMany(state.data, action.payload);
         },
       ),
@@ -45,5 +54,7 @@ export const {
   selectEntities: selectReleasesEntities,
   selectAll: selectAllReleases,
 } = releasesAdapter.getSelectors<RootState>((state) => state.releases.data);
+
+export const { select: selectRelease } = releasesSlice.actions;
 
 export default releasesSlice.reducer;
