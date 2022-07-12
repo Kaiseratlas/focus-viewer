@@ -2,10 +2,11 @@ import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { Container, Sprite, Text, useApp } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 
-import focusUnavailableBackground from '../images/focus_unavailable_bg.png';
-import unknownGoalIcon from '../images/goal_unknown.png';
-import { focusNameStyle, focusNameStyle2 } from '../const';
-import { Focus } from '../../features/focuses';
+import { Focus } from '../../typings';
+
+import { focusNameStyle, focusNameStyle2 } from './const';
+import focusUnavailableBackground from './focus_unavailable_bg.png';
+import unknownGoalIcon from './goal_unknown.png';
 
 interface Props {
   data: Focus;

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { HTMLTable, HTMLTableProps } from '@blueprintjs/core';
 
-import { useWindowSize } from '../FocusTree';
+import { useWindowSize } from '../../utils/hooks';
 
 import styles from './Table.module.scss';
 

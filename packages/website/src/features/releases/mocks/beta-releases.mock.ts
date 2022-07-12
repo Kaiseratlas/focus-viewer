@@ -3,10 +3,12 @@ import { Release } from '../typings';
 const RELEASES: Release[] = [
   // 0.21 'A World Aflame'
   {
+    name: 'A World Aflame',
     version: '0.21.2',
     date: new Date('2022-06-26'),
   },
   {
+    name: 'A World Aflame',
     version: '0.21.1',
     date: new Date('2022-06-18'),
   },
@@ -17,6 +19,7 @@ const RELEASES: Release[] = [
   },
   // 0.20: 'Railway of Liberty'
   {
+    name: 'Railway of Liberty',
     version: '0.20.1',
     date: new Date('2022-02-19'),
   },

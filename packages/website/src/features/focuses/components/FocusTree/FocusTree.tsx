@@ -1,61 +1,37 @@
-import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { Container, Graphics, Sprite, Stage } from '@inlet/react-pixi';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { _ReactPixi, Container, Graphics, Stage } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
-import { LINE_JOIN } from 'pixi.js';
 import { Toaster } from '@blueprintjs/core';
+import classNames from 'classnames';
 
-import { Focus } from '../features/focuses';
+import { Focus } from '../../typings';
+import { FocusLinkExclusive } from '../FocusLinkExclusive';
 
-import Viewport from './components/Viewport';
-import mut from './images/focus_link_exclusive.png';
-import upDown from './images/focus_link_up_down.png';
-import upDownOptional from './images/focus_link_up_down-optional.png';
-import leftRight from './images/focus_link_left_right.png';
-import { FocusContainer } from './components/FocusContainer';
-
-export const useWindowSize = () => {
-  const [size, setSize] = useState([0, 0]);
-  useLayoutEffect(() => {
-    const updateSize = () => {
-      setSize([window.innerWidth, window.innerHeight]);
-    };
-    window.addEventListener('resize', updateSize);
-    updateSize();
-    return () => window.removeEventListener('resize', updateSize);
-  }, []);
-  return size;
-};
+import Viewport from './Viewport';
+import { FocusContainer } from './FocusContainer';
+import styles from './FocusTree.module.scss';
 
 const toaster = Toaster.create({
   position: 'top-right',
 });
 
-interface Props {
+interface Props extends _ReactPixi.IStage {
+  baseAssetsUrl: string;
   focuses: Focus[];
 }
 
-const tex = PIXI.Texture.from(upDownOptional);
+const FocusTree: FC<Props> = (props) => {
+  const { baseAssetsUrl, className, focuses: data, ...stageProps } = props;
 
-const FocusTree: FC<Props> = ({ focuses: data }) => {
   const [app, setApp] = useState<PIXI.Application>();
-  const [l, setl] = useState(true);
-  const [width, height] = useWindowSize();
+  const [, setLoading] = useState(true); // TODO: important: will not rendered without it!
 
   useEffect(() => {
     if (app) {
+      app.loader.baseUrl = baseAssetsUrl;
       data.forEach((focus) => {
         if (!app.loader.resources[focus.icon]) {
-          app.loader.add(
-            focus.icon,
-            `${location.origin}/assets/0.20.1/icons/${focus.icon}.png`,
-          );
+          app.loader.add(focus.icon, `${focus.icon}.png`);
         }
       });
       app.loader.onError.add((...args) => {
@@ -64,15 +40,12 @@ const FocusTree: FC<Props> = ({ focuses: data }) => {
           intent: 'danger',
           message: args[0].message,
         });
-        console.log(...args);
       });
       app.loader.onStart.add(() => {
-        console.log('started');
-        setl(false);
+        setLoading(true);
       });
       app.loader.onComplete.add(() => {
-        console.log('loaded');
-        setl(true);
+        setLoading(false);
       });
       app.loader.load();
     }
@@ -81,7 +54,7 @@ const FocusTree: FC<Props> = ({ focuses: data }) => {
   const [refMap, setRefMap] = useState(new Map<string, PIXI.Sprite>());
 
   const initialFocuses = useMemo(
-    () => data?.filter((focus) => !focus.relativePositionId) ?? [],
+    () => data.filter((focus) => !focus.relativePositionId) ?? [],
     [data],
   );
 
@@ -137,10 +110,7 @@ const FocusTree: FC<Props> = ({ focuses: data }) => {
             }
           });
 
-
-
           g.lineStyle(2, 0x8ea2b6, 0.25);
-
 
           optionalFocuses.forEach((ff) => {
             const ff2 = refMap.get(ff.id);
@@ -195,44 +165,25 @@ const FocusTree: FC<Props> = ({ focuses: data }) => {
         if (nextFocusSprite) {
           const nextFocusSpriteBounds = nextFocusSprite.getGlobalPosition();
 
-          const x =
-            focusSpriteBounds.x +
-            (nextFocusSpriteBounds.x - focusSpriteBounds.x) / 2;
-          const y = nextFocusSpriteBounds.y;
           sprites.push(
-            <Container
-              position={[0, 50]}
+            <FocusLinkExclusive
               key={`${parentFocus.id}-${nextFocus.id}`}
-            >
-              <Graphics
-                draw={(g) => {
-                  g.clear();
-                  g.moveTo(focusSpriteBounds.x, focusSpriteBounds.y);
-                  g.lineStyle(2, 0xb0cdb0, 0.2);
-                  g.lineTo(nextFocusSpriteBounds.x, nextFocusSpriteBounds.y);
-                  g.moveTo(focusSpriteBounds.x, focusSpriteBounds.y);
-                }}
-              />
-              <Sprite image={mut} anchor={0.5} position={[x, y]} />
-            </Container>,
+              from={[focusSpriteBounds.x, focusSpriteBounds.y]}
+              to={[nextFocusSpriteBounds.x, nextFocusSpriteBounds.y]}
+            />,
           );
         }
       });
     });
-    console.log('sprites', sprites);
+    // console.log('sprites', sprites);
     return sprites;
   }, [refMap.size, data.length]);
 
   return (
     <Stage
-      width={width - 40}
-      height={height - 150}
-      options={{ antialias: true, backgroundAlpha: 0 }}
+      className={classNames(styles['focus-tree'], className)}
       onMount={setApp}
-      style={{
-        boxShadow:
-          'inset 0 0 0 1px rgb(255 255 255 / 20%), 0 1px 1px 0 rgb(17 20 24 / 40%)',
-      }}
+      {...stageProps}
     >
       <Viewport width={1400} height={1000}>
         <Graphics position={[0, 15]} draw={draw} />
@@ -254,4 +205,8 @@ const FocusTree: FC<Props> = ({ focuses: data }) => {
   );
 };
 
-export { FocusTree };
+FocusTree.defaultProps = {
+  options: { antialias: true, backgroundAlpha: 0 },
+};
+
+export default FocusTree;

@@ -4,9 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, MenuItem, Tag } from '@blueprintjs/core';
 import Highlighter from 'react-highlight-words';
 
-import { fetchReleases, Release } from '../../features/releases';
-import { AppDispatch } from '../store';
-import { selectAllReleases } from '../../features/releases/releases.slice';
+import {
+  fetchReleases,
+  Release,
+  useSelectedRelease,
+} from '../../features/releases';
+import { AppDispatch, RootState } from '../store';
+import {
+  selectAllReleases,
+  selectRelease,
+} from '../../features/releases/releases.slice';
+
+import styles from './ReleaseSelect.module.scss';
 
 const Select = Select2.ofType<Release>();
 
@@ -37,8 +46,8 @@ export const releaseRenderer: ItemRenderer<Release> = (
           <Highlighter
             searchWords={[query]}
             autoEscape
-            textToHighlight={`${release.version} ${
-              release.name ? `'${release.name}'` : ''
+            textToHighlight={`${release.name ? `'${release.name}'` : ''} ${
+              release.version
             }`}
           />
         </>
@@ -66,21 +75,30 @@ export const releaseListPredicate: ItemListPredicate<Release> = (
 const ReleaseSelect: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const releases = useSelector(selectAllReleases);
+  const { error } = useSelector((state: RootState) => state.releases);
+  const selected = useSelectedRelease();
 
   useEffect(() => {
     dispatch(fetchReleases());
   }, []);
+
   return (
     <Select
       items={releases}
       itemRenderer={releaseRenderer}
       itemListPredicate={releaseListPredicate}
-      onItemSelect={() => {
-
-      }}
+      onItemSelect={(release) => dispatch(selectRelease(release))}
+      popoverProps={{ matchTargetWidth: true, transitionDuration: 0 }}
     >
-      <Button outlined rightIcon="caret-down">
-        0.20.1
+      <Button
+        outlined
+        rightIcon="caret-down"
+        intent={error ? 'danger' : 'none'}
+        className={styles['release-select']}
+      >
+        {selected
+          ? `${selected.name ? `'${selected.name}'${selected.version}` : ''}`
+          : 'none'}
       </Button>
     </Select>
   );
