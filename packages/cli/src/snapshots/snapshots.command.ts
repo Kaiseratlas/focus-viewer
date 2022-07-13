@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import Parser, { Game, FocusTree } from '@kaiseratlas/parser';
 import { Listr } from 'listr2';
 import * as fs from 'fs';
+import { FocusFilter } from '@kaiseratlas/parser/dist/common/goals/classes/focus-filter.class';
 
 @Command({ name: 'snapshots' })
 export class SnapshotsCommand implements CommandRunner {
@@ -18,7 +19,9 @@ export class SnapshotsCommand implements CommandRunner {
     let kr: Parser;
     let trees: FocusTree[];
     const treesJSON = [];
+    const filtersJSON = [];
     let processed = 0;
+    const filtersMap = new Map<FocusFilter['id'], FocusFilter>();
 
     const tasks = new Listr([
       {
@@ -49,7 +52,6 @@ export class SnapshotsCommand implements CommandRunner {
           ),
       },
       {
-        // skip: () => true,
         title: 'Generating focus trees snapshot...',
         task: (ctx, task) =>
           task.newListr([
@@ -89,6 +91,74 @@ export class SnapshotsCommand implements CommandRunner {
       },
       {
         // skip: () => true,
+        title: 'Generating focus filters snapshot...',
+        task: (ctx, task) =>
+          task.newListr([
+            {
+              title: 'Loading focus filters...',
+              task: async (): Promise<void> => {
+                const allFocuses = trees.flatMap((tree) => tree.focuses);
+                allFocuses.forEach((focus) => {
+                  focus.searchFilters.forEach((focusFilter) => {
+                    if (filtersMap.has(focusFilter.id)) {
+                      return;
+                    }
+                    filtersMap.set(focusFilter.id, focusFilter);
+                  });
+                });
+              },
+            },
+            {
+              title: 'Processing focus filters...',
+              task: (ctx, task): Listr =>
+                task.newListr(
+                  [...filtersMap.values()].map((focusFilter) => ({
+                    task: async (): Promise<void> => {
+                      task.output = focusFilter.id;
+                      const name = (await focusFilter.getName())?.value ?? null;
+                      filtersJSON.push({
+                        id: focusFilter.id,
+                        icon: `GFX_${focusFilter.id}`,
+                        name,
+                      });
+                    },
+                  })),
+                  { concurrent: 10 },
+                ),
+            },
+            {
+              title: 'Processing focus filters icons...',
+              task: (ctx, task): Listr =>
+                task.newListr(
+                  [...filtersMap.values()].map((focusFilter) => ({
+                    task: async (): Promise<void> => {
+                      const filterIcon = await focusFilter.getIcon();
+                      const filename = `../website/public/assets/0.20.1/icons/filters/GFX_${focusFilter.id}.png`;
+
+                      if (filterIcon && !fs.existsSync(filename)) {
+                        await fs.promises.writeFile(
+                          filename,
+                          await filterIcon.png.toBuffer(),
+                        );
+                      }
+                    },
+                  })),
+                  { concurrent: 10 },
+                ),
+            },
+            {
+              title: 'Writing focus filters JSON to file...',
+              task: async (): Promise<void> => {
+                await fs.promises.writeFile(
+                  '../website/public/assets/0.20.1/filters.json',
+                  JSON.stringify(filtersJSON),
+                );
+              },
+            },
+          ]),
+      },
+      {
+        skip: () => true,
         title: 'Generating focus snapshots...',
         task: async (ctx, task) => {
           for (const tree of trees) {
@@ -116,7 +186,9 @@ export class SnapshotsCommand implements CommandRunner {
 
                 if (
                   !!icon?.id &&
-                  !fs.existsSync(`../website/public/assets/0.20.1/icons/${icon.id}.png`)
+                  !fs.existsSync(
+                    `../website/public/assets/0.20.1/icons/${icon.id}.png`,
+                  )
                 ) {
                   await fs.promises.writeFile(
                     `../website/public/assets/0.20.1/icons/${icon.id}.png`,
@@ -149,7 +221,7 @@ export class SnapshotsCommand implements CommandRunner {
             processed++;
             task.output = `Generating focus snapshots for tree: ${tree.id} (${processed} / ${trees.length}) ...`;
           }
-        }
+        },
       },
     ]);
 

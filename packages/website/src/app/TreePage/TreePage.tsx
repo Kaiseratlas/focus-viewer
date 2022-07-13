@@ -1,14 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useFontFaceObserver from 'use-font-face-observer';
-import {
-  Button,
-  ButtonGroup,
-  Callout,
-  IconName,
-  Navbar,
-  Spinner,
-} from '@blueprintjs/core';
+import { Callout, Spinner } from '@blueprintjs/core';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 import {
@@ -22,16 +15,11 @@ import { FocusTable } from '../FocusTable';
 import { useWindowSize } from '../../utils/hooks';
 
 import { TreeViewMode } from './tree-view-mode.enum';
-
-const ViewModeIcon: Record<TreeViewMode, IconName> = {
-  [TreeViewMode.TREE]: 'layout-hierarchy',
-  [TreeViewMode.GRID]: 'layout-grid',
-  [TreeViewMode.TABLE]: 'th',
-};
+import { TreeToolbar } from './TreeToolbar';
 
 const TreePage: FC = () => {
   const { id: treeId } = useParams<{ id: string }>();
-  const [searchParams, setSearchParams] = useSearchParams({
+  const [searchParams] = useSearchParams({
     mode: TreeViewMode.TREE,
   });
   const currentMode = searchParams.get('mode');
@@ -71,25 +59,7 @@ const TreePage: FC = () => {
 
   return (
     <>
-      <div style={{ height: 50, marginBottom: 10 }}>
-        <Navbar.Group>
-          <ButtonGroup large>
-            {Object.values(TreeViewMode).map((mode) => (
-              <Button
-                key={mode}
-                icon={ViewModeIcon[mode]}
-                active={mode === currentMode}
-                onClick={() => setSearchParams({ mode })}
-              />
-            ))}
-          </ButtonGroup>
-        </Navbar.Group>
-        <Navbar.Group align="right">
-          <ButtonGroup large>
-            <Button icon="filter" />
-          </ButtonGroup>
-        </Navbar.Group>
-      </div>
+      <TreeToolbar />
       {currentMode === TreeViewMode.TREE && (
         <FocusTree
           baseAssetsUrl={`${location.origin}/assets/0.20.1/icons/`}

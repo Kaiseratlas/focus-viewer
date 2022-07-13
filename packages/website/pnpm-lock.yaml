@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@blueprintjs/core': ^4.5.1
+  '@blueprintjs/popover2': ^1.4.2
   '@blueprintjs/select': ^4.4.1
   '@fontsource/ubuntu': ^4.5.10
   '@inlet/react-pixi': ^6.8.0
@@ -46,6 +47,7 @@ specifiers:
 
 dependencies:
   '@blueprintjs/core': 4.5.1_react-dom@17.0.2+react@17.0.2
+  '@blueprintjs/popover2': 1.4.2_react-dom@17.0.2+react@17.0.2
   '@blueprintjs/select': 4.4.1_react-dom@17.0.2+react@17.0.2
   '@fontsource/ubuntu': 4.5.10
   '@inlet/react-pixi': 6.8.0_525c2d70e5768f5ada7df2ffe9adfd0e
@@ -1473,6 +1475,10 @@ packages:
     resolution: {integrity: sha512-ANRQZT5h9+zC8B/y0S9B+SqEpicL0XRT4drAhiPFHBrOStRZWzOh3bPrwNSPqr7tdShxYtMyxbH+fkHMetZaxg==}
     dev: false
 
+  /@blueprintjs/colors/4.1.4:
+    resolution: {integrity: sha512-jggWTpazxg6ifWnaAiug9REsWUeMtkkuaWOFg5CjAiH6YtvMPU4ykWmQc9NnKAkabpKoXfZuR1V1KPAz79iYXQ==}
+    dev: false
+
   /@blueprintjs/core/4.5.1_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-CrMkeuvVo+GD/hv6T9W6GNWvTJ7TGpzs2r3v0zO1lMfAYj4v2gaisSXQQ2HziT7zO/kYDyu9aRpbGv0KSvryQA==}
     hasBin: true
@@ -1495,8 +1501,38 @@ packages:
       tslib: 2.3.1
     dev: false
 
+  /@blueprintjs/core/4.6.0_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-f8Sbsd2JUrhsxPjXLHyXTS6gi9QuULtIK4MlyoTyBc1yHb3GzQNq9L8stnKQgWOgNFl/u7wOEiXDlrSVrqfYaA==}
+    hasBin: true
+    peerDependencies:
+      react: ^16.8 || 17 || 18
+      react-dom: ^16.8 || 17 || 18
+    dependencies:
+      '@blueprintjs/colors': 4.1.4
+      '@blueprintjs/icons': 4.3.1
+      '@juggle/resize-observer': 3.3.1
+      '@types/dom4': 2.0.2
+      classnames: 2.3.1
+      dom4: 2.1.6
+      normalize.css: 8.0.1
+      popper.js: 1.16.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-popper: 1.3.11_react@17.0.2
+      react-transition-group: 4.4.2_react-dom@17.0.2+react@17.0.2
+      tslib: 2.3.1
+    dev: false
+
   /@blueprintjs/icons/4.3.0:
     resolution: {integrity: sha512-uLEdVUkWe0E2Bzfh2mqW2/3DRCqFo/vsSBYXrqOzFPiBsxCnu8ySEPInJWU+OHHPA/zM1hYMfrvKjfyaIIgbew==}
+    dependencies:
+      change-case: 4.1.2
+      classnames: 2.3.1
+      tslib: 2.3.1
+    dev: false
+
+  /@blueprintjs/icons/4.3.1:
+    resolution: {integrity: sha512-XVXFWfvqq/sFSi8FN0Y8mzApD3vQxrPUtmbqp/q1B8mXVdYQLrUwmXICxzUNSvztHqXaRVrApA5jkjDBTAwSJg==}
     dependencies:
       change-case: 4.1.2
       classnames: 2.3.1
@@ -1518,6 +1554,23 @@ packages:
       tslib: 2.3.1
     transitivePeerDependencies:
       - react-dom
+    dev: false
+
+  /@blueprintjs/popover2/1.4.2_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-Vt8RCPYspUQRV0M3yUFImtVQMoAAF6IBnJAAqsE4NF3i7u3HVBCHQWfRSv4KEKjm4G6uELLZIYqo/znv2SdCqg==}
+    peerDependencies:
+      react: ^16.8 || 17 || 18
+      react-dom: ^16.8 || 17 || 18
+    dependencies:
+      '@blueprintjs/core': 4.6.0_react-dom@17.0.2+react@17.0.2
+      '@juggle/resize-observer': 3.3.1
+      '@popperjs/core': 2.11.5
+      classnames: 2.3.1
+      dom4: 2.1.6
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-popper: 2.3.0_56755b872f91af5df7d7d5046f3b0a1b
+      tslib: 2.3.1
     dev: false
 
   /@blueprintjs/select/4.4.1_react-dom@17.0.2+react@17.0.2:

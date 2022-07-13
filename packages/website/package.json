@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@blueprintjs/core": "^4.5.1",
+    "@blueprintjs/popover2": "^1.4.2",
     "@blueprintjs/select": "^4.4.1",
     "@fontsource/ubuntu": "^4.5.10",
     "@inlet/react-pixi": "^6.8.0",
