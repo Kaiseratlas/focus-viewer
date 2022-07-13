@@ -90,7 +90,7 @@ export class SnapshotsCommand implements CommandRunner {
           ]),
       },
       {
-        // skip: () => true,
+        skip: () => true,
         title: 'Generating focus filters snapshot...',
         task: (ctx, task) =>
           task.newListr([
@@ -158,7 +158,7 @@ export class SnapshotsCommand implements CommandRunner {
           ]),
       },
       {
-        skip: () => true,
+        // skip: () => true,
         title: 'Generating focus snapshots...',
         task: async (ctx, task) => {
           for (const tree of trees) {
@@ -184,14 +184,11 @@ export class SnapshotsCommand implements CommandRunner {
                   throw Error(`no icon, focus: ${focus.id}`);
                 }
 
-                if (
-                  !!icon?.id &&
-                  !fs.existsSync(
-                    `../website/public/assets/0.20.1/icons/${icon.id}.png`,
-                  )
-                ) {
+                const filename = `../website/public/assets/0.20.1/icons/${icon.id}.png`;
+
+                if (!!icon?.id && !fs.existsSync(filename)) {
                   await fs.promises.writeFile(
-                    `../website/public/assets/0.20.1/icons/${icon.id}.png`,
+                    filename,
                     await icon.png.toBuffer(),
                   );
                 }
@@ -203,6 +200,7 @@ export class SnapshotsCommand implements CommandRunner {
                   relativePositionId: focus['relativePositionId'],
                   mutuallyExclusive: focus['mutuallyExclusive'],
                   willLeadToWarWith: focus['willLeadToWarWith'],
+                  searchFilters: focus['searchFiltersId'],
                   x,
                   y,
                   cost,

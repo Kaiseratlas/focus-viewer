@@ -30,7 +30,14 @@ export const focusFiltersSlice = createSlice({
   initialState,
   reducers: {
     select: (state, action: PayloadAction<FocusFilter>) => {
-      state.selected = [...state.selected, action.payload.id];
+      state.selected = Array.from(
+        new Set([...state.selected, action.payload.id]),
+      );
+    },
+    unselect: (state, action: PayloadAction<FocusFilter>) => {
+      state.selected = state.selected.filter(
+        (focusFilterId) => focusFilterId !== action.payload.id,
+      );
     },
   },
   extraReducers: (builder) =>
@@ -62,6 +69,7 @@ export const {
   (state) => state.focusFilters.data,
 );
 
-export const { select: selectFocusFilter } = focusFiltersSlice.actions;
+export const { select: selectFocusFilter, unselect: unselectFocusFilter } =
+  focusFiltersSlice.actions;
 
 export default focusFiltersSlice.reducer;

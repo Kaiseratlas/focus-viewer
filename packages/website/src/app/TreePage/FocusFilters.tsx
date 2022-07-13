@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from 'react';
 import { Classes, Popover2 } from '@blueprintjs/popover2';
-import { Button, Menu, MenuItem, Tag } from '@blueprintjs/core';
+import { Button, Menu, Tag } from '@blueprintjs/core';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -10,9 +10,14 @@ import {
 import { AppDispatch, RootState } from '../store';
 import { selectAllFocuses } from '../../features/focuses';
 
+import { FocusFilterMenuItem } from './FocusFilterMenuItem';
+
 const FocusFilters: FC = () => {
   const { selected: selectedVersion } = useSelector(
     (state: RootState) => state.releases,
+  );
+  const { selected: selectedFiltersIds } = useSelector(
+    (state: RootState) => state.focusFilters,
   );
 
   const { loading } = useSelector((state: RootState) => state.focusFilters);
@@ -21,7 +26,7 @@ const FocusFilters: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const treeFiltersIds = useMemo(
-    () => Array.from(new Set(...focuses.map((focus) => focus.id))),
+    () => Array.from(new Set(focuses.flatMap((focus) => focus.searchFilters))),
     [focuses],
   );
 
@@ -31,22 +36,12 @@ const FocusFilters: FC = () => {
         <Menu className={Classes.POPOVER2_DISMISS_OVERRIDE}>
           {focusFilters
             .filter((focusFilter) => treeFiltersIds.includes(focusFilter.id))
-            .map((focusFilter) => {
-              const iconUrl = `${location.origin}/assets/${selectedVersion}/icons/filters/${focusFilter.icon}.png`;
-              return (
-                <MenuItem
-                  key={focusFilter.id}
-                  icon={<img src={iconUrl} alt={focusFilter.icon} width={16} />}
-                  labelElement={
-                    <Tag minimal round>
-                      0
-                    </Tag>
-                  }
-                  text={focusFilter.name}
-                  //selected
-                />
-              );
-            })}
+            .map((focusFilter) => (
+              <FocusFilterMenuItem
+                key={focusFilter.id}
+                focusFilter={focusFilter}
+              />
+            ))}
         </Menu>
       }
       popoverClassName={Classes.CONTEXT_MENU2}
@@ -54,8 +49,9 @@ const FocusFilters: FC = () => {
       transitionDuration={0}
     >
       <Button
-        icon="filter"
+        icon={!selectedFiltersIds.length ? 'filter-open' : 'filter-keep'}
         loading={loading}
+        intent={selectedFiltersIds.length ? 'warning' : 'none'}
         onClick={() => {
           if (selectedVersion) {
             dispatch(fetchFocusFilters({ version: selectedVersion }));
