@@ -1,0 +1,8 @@
+.branch-filter {
+  width: 300px;
+  justify-content: space-between;
+
+  :global(.bp4-button-text) {
+    flex: 1;
+  }
+}

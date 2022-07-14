@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from 'react';
 import { Classes, Popover2 } from '@blueprintjs/popover2';
-import { Button, Menu, Tag } from '@blueprintjs/core';
+import { Button, Menu } from '@blueprintjs/core';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {

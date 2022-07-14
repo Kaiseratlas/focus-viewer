@@ -1,10 +1,10 @@
 import type { FocusFilterId } from '../../focus-filters';
 
-export type FocusTreeId = string;
+export type FocusId = string;
 export type ProductVersion = string;
 
 export type Focus = {
-  readonly id: FocusTreeId;
+  readonly id: FocusId;
   readonly x: number;
   readonly y: number;
   readonly name: string;

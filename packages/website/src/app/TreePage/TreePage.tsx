@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useFontFaceObserver from 'use-font-face-observer';
 import { Callout, Spinner } from '@blueprintjs/core';
@@ -7,8 +7,8 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import {
   fetchFocuses,
   selectAllFocuses,
-  FocusTree,
-} from '../../features/focuses';
+  FocusTree, Focus
+} from "../../features/focuses";
 import { AppDispatch, RootState } from '../store';
 import { FocusGrid } from '../FocusGrid/FocusGrid';
 import { FocusTable } from '../FocusTable';
@@ -40,6 +40,8 @@ const TreePage: FC = () => {
     }
   }, [treeId, selectedVersion]);
 
+  const [selectedBranches, setSelectedBranches] = useState<Focus[]>([]);
+
   const isFontLoaded = useFontFaceObserver([
     {
       family: `Ubuntu`,
@@ -62,12 +64,13 @@ const TreePage: FC = () => {
 
   return (
     <>
-      <TreeToolbar />
+      <TreeToolbar onBranchSelect={setSelectedBranches} />
       {currentMode === TreeViewMode.TREE && (
         <FocusTree
           baseAssetsUrl={`${location.origin}/assets/0.20.1/icons/`}
           focuses={data}
           searchFilters={selectedFilters}
+          selectedBranches={selectedBranches.map((focus) => focus.id)}
           width={width - 40}
           height={height - 150}
         />
