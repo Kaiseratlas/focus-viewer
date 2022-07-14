@@ -5,6 +5,8 @@ export type ProductVersion = string;
 
 export type Focus = {
   readonly id: FocusTreeId;
+  readonly x: number;
+  readonly y: number;
   readonly name: string;
   readonly icon: string;
   readonly cost: number;

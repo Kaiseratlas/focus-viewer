@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 import { Focus } from '../../typings';
 import { FocusLinkExclusive } from '../FocusLinkExclusive';
+import { FocusFilterId } from '../../../focus-filters';
 
 import Viewport from './Viewport';
 import { FocusContainer } from './FocusContainer';
@@ -18,10 +19,17 @@ const toaster = Toaster.create({
 interface Props extends _ReactPixi.IStage {
   baseAssetsUrl: string;
   focuses: Focus[];
+  searchFilters: FocusFilterId[];
 }
 
 const FocusTree: FC<Props> = (props) => {
-  const { baseAssetsUrl, className, focuses: data, ...stageProps } = props;
+  const {
+    baseAssetsUrl,
+    className,
+    searchFilters,
+    focuses: data,
+    ...stageProps
+  } = props;
 
   const [app, setApp] = useState<PIXI.Application>();
   const [, setLoading] = useState(true); // TODO: important: will not rendered without it!
@@ -194,6 +202,7 @@ const FocusTree: FC<Props> = (props) => {
               key={focus.id}
               focus={focus}
               allFocuses={data}
+              searchFilters={searchFilters}
               onMount={(id, ref) => {
                 setRefMap(new Map(refMap.set(id, ref)));
               }}

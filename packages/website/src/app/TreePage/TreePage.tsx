@@ -29,6 +29,9 @@ const TreePage: FC = () => {
   );
   const dispatch = useDispatch<AppDispatch>();
   const data = useSelector(selectAllFocuses);
+  const { selected: selectedFilters } = useSelector(
+    (state: RootState) => state.focusFilters,
+  );
   const [width, height] = useWindowSize();
 
   useEffect(() => {
@@ -64,6 +67,7 @@ const TreePage: FC = () => {
         <FocusTree
           baseAssetsUrl={`${location.origin}/assets/0.20.1/icons/`}
           focuses={data}
+          searchFilters={selectedFilters}
           width={width - 40}
           height={height - 150}
         />

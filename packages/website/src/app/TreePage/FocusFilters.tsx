@@ -49,8 +49,9 @@ const FocusFilters: FC = () => {
       transitionDuration={0}
     >
       <Button
-        icon={!selectedFiltersIds.length ? 'filter-open' : 'filter-keep'}
+        icon={!selectedFiltersIds.length ? 'filter-list' : 'filter-keep'}
         loading={loading}
+        text="Filters"
         intent={selectedFiltersIds.length ? 'warning' : 'none'}
         onClick={() => {
           if (selectedVersion) {
