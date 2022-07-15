@@ -1,18 +1,26 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useFontFaceObserver from 'use-font-face-observer';
-import { Callout, Spinner } from '@blueprintjs/core';
-import { useParams, useSearchParams } from 'react-router-dom';
+import {
+  Breadcrumb,
+  Breadcrumbs,
+  Callout,
+  IBreadcrumbProps,
+  Spinner,
+} from '@blueprintjs/core';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import {
   fetchFocuses,
   selectAllFocuses,
-  FocusTree, Focus
-} from "../../features/focuses";
+  FocusTree,
+  Focus,
+} from '../../features/focuses';
 import { AppDispatch, RootState } from '../store';
 import { FocusGrid } from '../FocusGrid/FocusGrid';
 import { FocusTable } from '../FocusTable';
 import { useWindowSize } from '../../utils/hooks';
+import { selectTreeById } from '../../features/trees/trees.slice';
 
 import { TreeViewMode } from './tree-view-mode.enum';
 import { TreeToolbar } from './TreeToolbar';
@@ -29,10 +37,19 @@ const TreePage: FC = () => {
   );
   const dispatch = useDispatch<AppDispatch>();
   const data = useSelector(selectAllFocuses);
+  const tree = useSelector((state: RootState) =>
+    selectTreeById(state, treeId ?? ''),
+  );
   const { selected: selectedFilters } = useSelector(
     (state: RootState) => state.focusFilters,
   );
   const [width, height] = useWindowSize();
+
+  const navigate = useNavigate();
+  const BREADCRUMBS: IBreadcrumbProps[] = [
+    { href: '/trees', text: 'Focus Trees' },
+    { href: `/trees/${tree?.id}`, text: tree?.name },
+  ];
 
   useEffect(() => {
     if (treeId && selectedVersion) {
@@ -64,6 +81,19 @@ const TreePage: FC = () => {
 
   return (
     <>
+      <div style={{ padding: 10 }}>
+        <Breadcrumbs
+          breadcrumbRenderer={({ href, ...restProps }) => (
+            <Breadcrumb {...restProps} onClick={() => href && navigate(href)} />
+          )}
+          currentBreadcrumbRenderer={({ href, text, ...restProps }) => (
+            <Breadcrumb {...restProps} onClick={() => href && navigate(href)}>
+              {text}
+            </Breadcrumb>
+          )}
+          items={BREADCRUMBS}
+        />
+      </div>
       <TreeToolbar onBranchSelect={setSelectedBranches} />
       {currentMode === TreeViewMode.TREE && (
         <FocusTree

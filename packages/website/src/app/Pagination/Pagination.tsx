@@ -1,18 +1,25 @@
 import React, { FC } from 'react';
 import { Button, ButtonGroup, Navbar } from '@blueprintjs/core';
+import { UsePaginationInstanceProps } from 'react-table';
 
 import styles from './Pagination.module.scss';
 
-interface Props {
+interface Props extends Omit<UsePaginationInstanceProps<any>, 'setPageSize'> {
   data: any[];
   currentPage: number;
-  limit?: number;
-  onPageChange: (page: number) => void;
 }
 
 const Pagination: FC<Props> = (props) => {
-  const { data, currentPage, limit = 25, onPageChange } = props;
-  const pagesCount = Math.round(data.length / limit);
+  const {
+    data,
+    currentPage,
+    canNextPage,
+    pageCount,
+    canPreviousPage,
+    previousPage,
+    nextPage,
+    gotoPage,
+  } = props;
 
   return (
     <div className={styles.pagination}>
@@ -21,21 +28,21 @@ const Pagination: FC<Props> = (props) => {
         <ButtonGroup large>
           <Button
             icon="caret-left"
-            disabled={currentPage === 1}
-            onClick={() => onPageChange(currentPage - 1)}
+            disabled={!canPreviousPage}
+            onClick={previousPage}
           />
-          {Array.from(Array(pagesCount).keys()).map((n) => (
+          {Array.from(Array(pageCount).keys()).map((n) => (
             <Button
               key={n}
               text={n + 1}
-              active={n + 1 === currentPage}
-              onClick={() => onPageChange(n + 1)}
+              active={n === currentPage}
+              onClick={() => gotoPage(n)}
             />
           ))}
           <Button
             icon="caret-right"
-            disabled={currentPage + 1 > pagesCount}
-            onClick={() => onPageChange(currentPage + 1)}
+            disabled={!canNextPage}
+            onClick={nextPage}
           />
         </ButtonGroup>
       </Navbar.Group>
