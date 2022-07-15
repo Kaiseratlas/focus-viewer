@@ -7,7 +7,7 @@ import {
   withFilters,
 } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
-import { DropShadowFilter } from 'pixi-filters';
+import { DropShadowFilter } from '@pixi/filter-drop-shadow';
 
 import { Focus } from '../../../typings';
 import { focusNameStyle, focusNameStyle2 } from '../const';
