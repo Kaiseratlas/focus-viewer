@@ -31,7 +31,7 @@ function Table<T extends object>(props: Props<T>) {
       columns,
       data,
       // @ts-ignore
-      initialState: { pageSize: 20 },
+      initialState: { pageSize: 15 },
     },
     usePagination,
   ) as unknown as TableInstance & UsePaginationInstanceProps<any>;
