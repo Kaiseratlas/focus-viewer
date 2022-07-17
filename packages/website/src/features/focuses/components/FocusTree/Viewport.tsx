@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import * as PIXI from 'pixi.js';
 import { PixiComponent, useApp } from '@inlet/react-pixi';
 import { Viewport as PixiViewport } from 'pixi-viewport';
@@ -23,7 +23,7 @@ const PixiComponentViewport = PixiComponent('Viewport', {
       ticker: props.app.ticker,
       interaction: props.app.renderer.plugins.interaction,
     });
-    viewport.cursor = 'grab'
+    viewport.cursor = 'grab';
     viewport
       .drag()
       .pinch()

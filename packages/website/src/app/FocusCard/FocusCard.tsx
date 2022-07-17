@@ -13,7 +13,7 @@ interface Props extends CardProps {
 const FocusCard: FC<Props> = (props) => {
   const { focus, ...cardProps } = props;
 
-  const iconUrl = `${location.origin}/assets/0.20.1/icons/${focus.icon}.png`;
+  const iconUrl = `${process.env.PUBLIC_URL}/assets/0.20.1/icons/${focus.icon}.png`;
   return (
     <div>
       <Card className={styles['focus-card']} {...cardProps}>

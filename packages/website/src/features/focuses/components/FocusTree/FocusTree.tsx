@@ -1,11 +1,10 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { _ReactPixi, Container, Graphics, Stage } from '@inlet/react-pixi';
+import React, { FC, useEffect, useMemo, useState } from 'react';
+import { _ReactPixi, Container, Stage } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import { Toaster } from '@blueprintjs/core';
 import classNames from 'classnames';
 
 import { Focus, FocusId } from '../../typings';
-import { FocusLinkExclusive } from '../FocusLinkExclusive';
 import { FocusFilterId } from '../../../focus-filters';
 
 import Viewport from './Viewport';
@@ -22,6 +21,10 @@ interface Props extends _ReactPixi.IStage {
   focuses: Focus[];
   selectedBranches: FocusId[];
   searchFilters: FocusFilterId[];
+  onMount?: _ReactPixi.IStage['onMount'];
+  treeOptions?: {
+    showLinks: boolean;
+  };
 }
 
 const FocusTree: FC<Props> = (props) => {
@@ -31,14 +34,21 @@ const FocusTree: FC<Props> = (props) => {
     searchFilters,
     selectedBranches,
     focuses: data,
+    onMount,
+    treeOptions,
     ...stageProps
   } = props;
+
+  const { showLinks = true } = treeOptions ?? {};
 
   const [app, setApp] = useState<PIXI.Application>();
   const [, setLoading] = useState(true); // TODO: important: will not rendered without it!
 
   useEffect(() => {
     if (app) {
+      if (onMount) {
+        onMount(app);
+      }
       app.loader.baseUrl = baseAssetsUrl;
       data.forEach((focus) => {
         if (!app.loader.resources[focus.icon]) {
@@ -70,13 +80,18 @@ const FocusTree: FC<Props> = (props) => {
   );
 
   const focusLinks = useMemo(() => {
-    if (refMap.size !== data.length) {
-      return null;
-    }
+    // console.log(refMap.size, data.length);
+    // console.log(data.filter((f) => !refMap.has(f.id)));
+    // console.log(refMap.get('CHS_national_protection_legacy'))
     return initialFocuses
       .filter((focus) => selectedBranches.includes(focus.id))
       .map((focus) => (
-        <FocusLinks focus={focus} allFocuses={data} refMap={refMap} />
+        <FocusLinks
+          key={focus.id}
+          focus={focus}
+          allFocuses={data}
+          refMap={refMap}
+        />
       ));
   }, [refMap.size, data.length, selectedBranches, initialFocuses]);
 
@@ -87,7 +102,7 @@ const FocusTree: FC<Props> = (props) => {
       {...stageProps}
     >
       <Viewport width={1400} height={1000}>
-        {focusLinks}
+        {showLinks && focusLinks}
         <Container position={[100, 100]}>
           {initialFocuses.map((focus) => (
             <FocusContainer

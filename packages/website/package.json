@@ -1,5 +1,6 @@
 {
   "name": "@kaiseratlas/focus-viewer-website",
+  "homepage": "http://pereslavtsev.github.io/focus-viewer/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -52,9 +53,9 @@
   },
   "scripts": {
     "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
-    "build": "../../node_modules/.bin/react-scripts build",
-    "test": "../../node_modules/.bin/react-scripts test",
-    "eject": "../../node_modules/.bin/react-scripts eject"
+    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "test": ".react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

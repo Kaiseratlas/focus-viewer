@@ -3,7 +3,7 @@ import { Column } from 'react-table';
 
 import { Focus } from '../features/focuses';
 
-import { Table } from './Table';
+import { Table } from './components/Table';
 
 interface Props {
   data: Focus[];

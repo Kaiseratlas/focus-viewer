@@ -97,7 +97,7 @@ const ReleaseSelect: FC = () => {
         className={styles['release-select']}
       >
         {selected
-          ? `${selected.name ? `'${selected.name}'${selected.version}` : ''}`
+          ? `${selected.name ? `'${selected.name}' ${selected.version}` : ''}`
           : 'none'}
       </Button>
     </Select>

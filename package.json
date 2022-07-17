@@ -3,6 +3,12 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "dev:website": "pnpm run start --filter @kaiseratlas/focus-viewer-website"
+    "build:website": "pnpm run build --filter @kaiseratlas/focus-viewer-website",
+    "dev:website": "pnpm run start --filter @kaiseratlas/focus-viewer-website",
+    "predeploy": "pnpm run build:website",
+    "deploy": "gh-pages -d packages/website/build"
+  },
+  "optionalDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }

@@ -19,6 +19,7 @@ export class SnapshotsCommand implements CommandRunner {
     let kr: Parser;
     let trees: FocusTree[];
     const treesJSON = [];
+    const sharedFocusesJSON = [];
     const filtersJSON = [];
     let processed = 0;
     const filtersMap = new Map<FocusFilter['id'], FocusFilter>();
@@ -47,6 +48,12 @@ export class SnapshotsCommand implements CommandRunner {
                   await kr.interface.sprites.load();
                 },
               },
+              {
+                title: 'Loading shared focuses...',
+                task: async (): Promise<void> => {
+                  await kr.common.focuses.shared.load();
+                },
+              },
             ],
             { concurrent: true },
           ),
@@ -61,32 +68,96 @@ export class SnapshotsCommand implements CommandRunner {
                 trees = await kr.common.focuses.trees.load();
               },
             },
-            // {
-            //   title: 'Processing focus trees...',
-            //   task: (ctx, task): Listr =>
-            //     task.newListr(
-            //       trees.map((tree) => ({
-            //         task: async (): Promise<void> => {
-            //           task.output = tree.id;
-            //           const name = (await tree.getName())?.value ?? null;
-            //           treesJSON.push({
-            //             id: tree.id,
-            //             name,
-            //           });
-            //         },
-            //       })),
-            //       { concurrent: 10 },
-            //     ),
-            // },
-            // {
-            //   title: 'Writing focus trees JSON to file...',
-            //   task: async (): Promise<void> => {
-            //     await fs.promises.writeFile(
-            //       '../website/public/assets/0.20.1/trees.json',
-            //       JSON.stringify(treesJSON),
-            //     );
-            //   },
-            // },
+            {
+              title: 'Processing focus trees...',
+              task: (ctx, task): Listr =>
+                task.newListr(
+                  trees.map((tree) => ({
+                    task: async (): Promise<void> => {
+                      task.output = tree.id;
+                      const name = (await tree.getName())?.value ?? null;
+                      treesJSON.push({
+                        id: tree.id,
+                        name,
+                        focusCount: tree.focuses.length,
+                        sharedFocusIds: tree['sharedFocusIds'],
+                      });
+                    },
+                  })),
+                  { concurrent: 10 },
+                ),
+            },
+            {
+              //skip: () => true,
+              title: 'Writing shared focuses JSON to file...',
+              task: async (): Promise<void> => {
+                const sharedFocuses = await kr.common.focuses.shared.load();
+                const sharedFocusesJSON = await Promise.all(
+                  sharedFocuses.map(async (focus) => {
+                    const {
+                      id,
+                      x,
+                      y,
+                      cost,
+                      cancelIfInvalid,
+                      continueIfInvalid,
+                      availableIfCapitulated,
+                    } = focus;
+
+                    const [name, description, icon] = await Promise.all([
+                      focus.getName(),
+                      focus.getDescription(),
+                      focus.getIcon(),
+                    ]);
+
+                    if (!icon) {
+                      throw Error(`no icon, focus: ${focus.id}`);
+                    }
+
+                    const filename = `../website/public/assets/0.20.1/icons/${icon.id}.png`;
+
+                    if (!!icon?.id && !fs.existsSync(filename)) {
+                      await fs.promises.writeFile(
+                        filename,
+                        await icon.png.toBuffer(),
+                      );
+                    }
+
+                    return {
+                      id,
+                      icon: focus['icon'],
+                      prerequisiteFocusIds: focus['prerequisiteFocusIds'],
+                      relativePositionId: focus['relativePositionId'],
+                      mutuallyExclusive: focus['mutuallyExclusive'],
+                      willLeadToWarWith: focus['willLeadToWarWith'],
+                      searchFilters: focus['searchFiltersId'],
+                      x,
+                      y,
+                      cost,
+                      cancelIfInvalid,
+                      continueIfInvalid,
+                      availableIfCapitulated,
+                      name: name?.value ?? id,
+                      description: description?.value ?? id,
+                      isHidden: focus.isHidden,
+                    };
+                  }),
+                );
+                await fs.promises.writeFile(
+                  '../website/public/assets/0.20.1/shared_focuses.json',
+                  JSON.stringify(sharedFocusesJSON),
+                );
+              },
+            },
+            {
+              title: 'Writing focus trees JSON to file...',
+              task: async (): Promise<void> => {
+                await fs.promises.writeFile(
+                  '../website/public/assets/0.20.1/trees.json',
+                  JSON.stringify(treesJSON),
+                );
+              },
+            },
           ]),
       },
       {
@@ -158,7 +229,7 @@ export class SnapshotsCommand implements CommandRunner {
           ]),
       },
       {
-        // skip: () => true,
+        //skip: () => true,
         title: 'Generating focus snapshots...',
         task: async (ctx, task) => {
           for (const tree of trees) {
@@ -209,6 +280,7 @@ export class SnapshotsCommand implements CommandRunner {
                   availableIfCapitulated,
                   name: name?.value ?? id,
                   description: description?.value ?? id,
+                  isHidden: focus.isHidden,
                 };
               }),
             );

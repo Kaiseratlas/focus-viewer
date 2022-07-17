@@ -15,4 +15,5 @@ export type Focus = {
   readonly mutuallyExclusive: { focus: string } | null;
   readonly availableIfCapitulated: boolean;
   readonly searchFilters: FocusFilterId[];
+  readonly isHidden: boolean;
 };

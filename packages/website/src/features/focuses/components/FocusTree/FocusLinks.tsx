@@ -1,14 +1,14 @@
 import { FC, useCallback, useMemo } from 'react';
 import * as PIXI from 'pixi.js';
+import { Graphics } from '@inlet/react-pixi';
 
 import { Focus } from '../../typings';
 import { FocusLinkExclusive } from '../FocusLinkExclusive';
-import { Graphics } from "@inlet/react-pixi";
 
 interface Props {
   focus: Focus;
   allFocuses: Focus[];
-  refMap: any;
+  refMap: Map<string, PIXI.Sprite>;
 }
 
 const FocusLinks: FC<Props> = (props) => {
@@ -51,7 +51,6 @@ const FocusLinks: FC<Props> = (props) => {
   const draw = useCallback(
     (g: PIXI.Graphics) => {
       g.clear();
-
       const parentFocusSprite = refMap.get(parentFocus.id);
 
       if (!parentFocusSprite) {
@@ -59,6 +58,10 @@ const FocusLinks: FC<Props> = (props) => {
       }
 
       const parentFocusSpritePosition = parentFocusSprite.getGlobalPosition();
+
+      if (parentFocus.id === 'SER_Third_Revolution') {
+        console.log(parentFocusSpritePosition);
+      }
       g.moveTo(parentFocusSpritePosition.x, parentFocusSpritePosition.y);
 
       const minY = Math.min(
