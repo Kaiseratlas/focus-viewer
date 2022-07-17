@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/focus-viewer/static/css/main.afc61f33.css",
-    "main.js": "/focus-viewer/static/js/main.95072f92.js",
+    "main.css": "/focus-viewer/static/css/main.7280eed8.css",
+    "main.js": "/focus-viewer/static/js/main.bdaa428b.js",
     "static/js/843.99f0675f.chunk.js": "/focus-viewer/static/js/843.99f0675f.chunk.js",
     "static/media/ubuntu-all-500-normal.woff": "/focus-viewer/static/media/ubuntu-all-500-normal.d1f289741e5c09c85fc2.woff",
     "static/media/ubuntu-latin-ext-500-normal.woff2": "/focus-viewer/static/media/ubuntu-latin-ext-500-normal.46caae5f61be18653217.woff2",
@@ -13,12 +13,12 @@
     "static/media/ubuntu-greek-ext-500-normal.woff2": "/focus-viewer/static/media/ubuntu-greek-ext-500-normal.a469e27840086efcfd34.woff2",
     "static/media/focus_unavailable_bg.png": "/focus-viewer/static/media/focus_unavailable_bg.beb70ab28ff6ebbf1558.png",
     "index.html": "/focus-viewer/index.html",
-    "main.afc61f33.css.map": "/focus-viewer/static/css/main.afc61f33.css.map",
-    "main.95072f92.js.map": "/focus-viewer/static/js/main.95072f92.js.map",
+    "main.7280eed8.css.map": "/focus-viewer/static/css/main.7280eed8.css.map",
+    "main.bdaa428b.js.map": "/focus-viewer/static/js/main.bdaa428b.js.map",
     "843.99f0675f.chunk.js.map": "/focus-viewer/static/js/843.99f0675f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.afc61f33.css",
-    "static/js/main.95072f92.js"
+    "static/css/main.7280eed8.css",
+    "static/js/main.bdaa428b.js"
   ]
 }
