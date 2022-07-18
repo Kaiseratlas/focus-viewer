@@ -132,7 +132,7 @@ const TreePage: FC = () => {
         current: true,
       },
     ],
-    [tree],
+    [tree, selected],
   );
 
   useEffect(() => {

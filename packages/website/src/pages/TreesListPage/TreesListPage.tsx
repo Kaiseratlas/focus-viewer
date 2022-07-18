@@ -13,7 +13,7 @@ import { useSelectedRelease } from '../../features/releases';
 import type { IBreadcrumbProps } from '@blueprintjs/core';
 
 const BREADCRUMBS: IBreadcrumbProps[] = [
-  { href: '/trees', text: 'Focus Trees' },
+  { href: '/trees', text: 'Focus Trees', current: true },
 ];
 
 const TreesListPage: FC = () => {

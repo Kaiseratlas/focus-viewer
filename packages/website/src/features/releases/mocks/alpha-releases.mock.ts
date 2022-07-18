@@ -20,7 +20,7 @@ const RELEASES: Release[] = [
   },
   {
     name: 'Aurora Borealis',
-    version: '0.9',
+    version: '0.9.0',
     date: new Date('2019-05-16'),
   },
   // 0.8.5: 'Return of the Kaiser'
@@ -73,7 +73,7 @@ const RELEASES: Release[] = [
   },
   {
     name: 'Divided States',
-    version: '0.8',
+    version: '0.8.0',
     date: new Date('2018-10-19'),
   },
   // 0.7: 'El Condor Pasa'
@@ -100,7 +100,7 @@ const RELEASES: Release[] = [
   },
   {
     name: 'El Condor Pasa',
-    version: '0.7',
+    version: '0.7.0',
     date: new Date('2018-07-15'),
   },
   // 0.6.2: 'Podcat's Gift'
@@ -144,7 +144,7 @@ const RELEASES: Release[] = [
   },
   {
     name: "Garibaldi's Nightmare",
-    version: '0.6',
+    version: '0.6.0',
     date: new Date('2018-04-11'),
   },
   // 0.5.4: 'Birthday Cake'
@@ -199,7 +199,7 @@ const RELEASES: Release[] = [
   // 0.5: 'Heia Safari'
   {
     name: 'Heia Safari',
-    version: '0.5',
+    version: '0.5.0',
     date: new Date('2017-09-30'),
     isFinal: true,
   },
@@ -268,7 +268,7 @@ const RELEASES: Release[] = [
   // 0.4: 'Pax Americana'
   {
     name: 'Pax Americana',
-    version: '0.4',
+    version: '0.4.0',
     date: new Date('2017-05-07'),
     isFinal: true,
   },
@@ -324,7 +324,7 @@ const RELEASES: Release[] = [
   // 0.3: 'Eternal Peace'
   {
     name: 'Eternal Peace',
-    version: '0.3',
+    version: '0.3.0',
     date: new Date('2017-02-26'),
     isFinal: true,
   },
@@ -334,7 +334,7 @@ const RELEASES: Release[] = [
     isFinal: true,
   },
   {
-    version: '0.2',
+    version: '0.2.0',
     date: new Date('2017-01-04'),
   },
   {
@@ -375,7 +375,7 @@ const RELEASES: Release[] = [
     date: new Date('2016-12-01'),
   },
   {
-    version: '0.1',
+    version: '0.1.0',
     date: new Date('2016-12-01'),
   },
 ];

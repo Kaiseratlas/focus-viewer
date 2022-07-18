@@ -42,7 +42,7 @@ export const releasesSlice = createSlice({
       .addCase(
         fetchReleases.SUCCESS,
         (state, action: ReturnType<typeof fetchReleases.success>) => {
-          state.selected = action.payload[3].version; // TODO: match the latest version
+          state.selected = action.payload[0].version; // TODO: match the latest version
           releasesAdapter.upsertMany(state.data, action.payload);
         },
       ),

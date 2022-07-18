@@ -2,16 +2,17 @@ import { Release } from '../typings';
 
 const RELEASES: Release[] = [
   // 0.21 'A World Aflame'
-  {
-    name: 'A World Aflame',
-    version: '0.21.2',
-    date: new Date('2022-06-26'),
-    isFinal: true,
-  },
+  // {
+  //   name: 'A World Aflame',
+  //   version: '0.21.2',
+  //   date: new Date('2022-06-26'),
+  //   isFinal: true,
+  // },
   {
     name: 'A World Aflame',
     version: '0.21.1',
     date: new Date('2022-06-18'),
+    isFinal: true,
   },
   {
     name: 'A World Aflame',

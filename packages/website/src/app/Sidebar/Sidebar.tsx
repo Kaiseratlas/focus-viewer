@@ -32,13 +32,13 @@ const Sidebar: FC<Props> = (props) => {
             onClose && onClose(event);
           }}
         />
-        <MenuItem
-          text="Releases"
-          onClick={(event) => {
-            navigate('releases');
-            onClose && onClose(event);
-          }}
-        />
+        {/*<MenuItem*/}
+        {/*  text="Releases"*/}
+        {/*  onClick={(event) => {*/}
+        {/*    navigate('releases');*/}
+        {/*    onClose && onClose(event);*/}
+        {/*  }}*/}
+        {/*/>*/}
       </Menu>
     </Drawer>
   );

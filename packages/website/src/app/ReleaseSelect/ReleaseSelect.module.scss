@@ -4,9 +4,13 @@
   width: 270px;
   justify-content: space-between;
 
-  &__popover {
+  &__menu {
     max-height: $pt-grid-size * 24;
     overflow-y: auto;
+  }
+
+  &__popover {
+
   }
 
   &__tag {
