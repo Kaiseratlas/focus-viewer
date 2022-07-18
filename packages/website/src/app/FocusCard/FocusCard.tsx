@@ -3,6 +3,7 @@ import { Card, CardProps, Tag } from '@blueprintjs/core';
 import classNames from 'classnames';
 
 import { Focus } from '../../features/focuses';
+import { useSelectedRelease } from '../../features/releases';
 
 import styles from './FocusCard.module.scss';
 
@@ -12,8 +13,9 @@ interface Props extends CardProps {
 
 const FocusCard: FC<Props> = (props) => {
   const { focus, ...cardProps } = props;
+  const { selected } = useSelectedRelease();
 
-  const iconUrl = `${process.env.PUBLIC_URL}/assets/0.20.1/icons/${focus.icon}.png`;
+  const iconUrl = `${process.env.PUBLIC_URL}/assets/${selected?.version}/icons/${focus.icon}.png`;
   return (
     <div>
       <Card className={styles['focus-card']} {...cardProps}>

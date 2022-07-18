@@ -6,7 +6,7 @@ import { Breadcrumbs } from '../../app/components/Breadcrumbs/Breadcrumbs';
 import { ReleaseTable } from './ReleaseTable';
 
 const BREADCRUMBS: IBreadcrumbProps[] = [
-  { href: '/releases', text: 'Releases' },
+  { href: '/releases', text: 'Releases', current: true },
 ];
 
 const ReleasesListPage: FC = () => {

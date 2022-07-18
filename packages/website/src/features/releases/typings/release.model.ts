@@ -5,4 +5,5 @@ export interface Release {
   readonly version: ReleaseVersion;
   readonly date: Date;
   readonly tags?: string[];
+  readonly isFinal?: boolean;
 }

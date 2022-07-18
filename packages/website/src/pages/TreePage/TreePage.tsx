@@ -1,4 +1,11 @@
-import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  FC,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import useFontFaceObserver from 'use-font-face-observer';
 import { Callout, IBreadcrumbProps, Spinner } from '@blueprintjs/core';
@@ -22,6 +29,7 @@ import { useWindowSize } from '../../utils/hooks';
 import { selectTreeById } from '../../features/trees/trees.slice';
 import { Breadcrumbs } from '../../app/components/Breadcrumbs/Breadcrumbs';
 import { TreeId } from '../../features/trees';
+import { useSelectedRelease } from '../../features/releases';
 
 import { TreeViewMode } from './tree-view-mode.enum';
 import { TreeToolbar } from './components/TreeToolbar/TreeToolbar';
@@ -71,7 +79,22 @@ function useFocusTree(treeId: TreeId) {
   return [{ tree, sharedFocuses }];
 }
 
+function useLockBodyScroll() {
+  useEffect(() => {
+    // Get original body overflow
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    // Prevent scrolling on mount
+    document.body.style.overflow = 'hidden';
+    // Re-enable scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []); // Empty array ensures effect is only run on mount and unmount
+}
+
 const TreePage: FC = () => {
+  useLockBodyScroll();
+
   const { id: treeId } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams({
     mode: TreeViewMode.TREE,
@@ -95,10 +118,19 @@ const TreePage: FC = () => {
   );
   const [width, height] = useWindowSize();
 
+  const { selected, outdated } = useSelectedRelease();
+
   const breadcrumbs = useMemo<IBreadcrumbProps[]>(
     () => [
       { href: '/trees', text: 'Focus Trees' },
-      { href: `/trees/${tree?.id}`, text: tree?.name },
+      {
+        href: `/trees/${tree?.id}`,
+        text:
+          outdated && selected
+            ? `${tree?.name} (v${selected.version})`
+            : tree?.name,
+        current: true,
+      },
     ],
     [tree],
   );
@@ -150,7 +182,7 @@ const TreePage: FC = () => {
       />
       {currentMode === TreeViewMode.TREE && (
         <FocusTree
-          baseAssetsUrl={`${process.env.PUBLIC_URL}/assets/0.20.1/icons/`}
+          baseAssetsUrl={`${process.env.PUBLIC_URL}/assets/${selected?.version}/icons/`}
           focuses={uniqueByKey(data.concat(...sharedFocuses), 'id')}
           searchFilters={selectedFilters}
           selectedBranches={Array.from(

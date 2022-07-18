@@ -1,12 +1,14 @@
-import React, { FC, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Column } from 'react-table';
 import { useNavigate } from 'react-router-dom';
 
 import { selectAllTrees } from '../../features/trees/trees.slice';
 import { Table } from '../../app/components/Table';
-import { Tree } from '../../features/trees';
+import { fetchTrees, Tree } from '../../features/trees';
 import { Breadcrumbs } from '../../app/components/Breadcrumbs/Breadcrumbs';
+import { AppDispatch } from '../../app/store';
+import { useSelectedRelease } from '../../features/releases';
 
 import type { IBreadcrumbProps } from '@blueprintjs/core';
 
@@ -40,6 +42,15 @@ const TreesListPage: FC = () => {
     ],
     [],
   );
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { selected } = useSelectedRelease();
+
+  useEffect(() => {
+    if (selected?.version) {
+      dispatch(fetchTrees({ version: selected.version }));
+    }
+  }, [selected?.version]);
 
   return (
     <>

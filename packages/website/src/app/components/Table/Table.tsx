@@ -38,7 +38,7 @@ function Table<T extends object>(props: Props<T>) {
       columns,
       data,
       // @ts-ignore
-      initialState: { pageSize: 15, pageIndex: Number(currentPage) },
+      initialState: { pageSize: 15, pageIndex: Number(currentPage) - 1 },
     },
     usePagination,
   ) as unknown as TableInstance & UsePaginationInstanceProps<any>;
@@ -68,7 +68,7 @@ function Table<T extends object>(props: Props<T>) {
 
   return (
     <>
-      <div className={styles.table} style={{ height: height - 200 }}>
+      <div className={styles.table}>
         <HTMLTable {...tableProps} {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (

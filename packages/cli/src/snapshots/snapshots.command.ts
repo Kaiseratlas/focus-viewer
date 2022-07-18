@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import Parser, { Game, FocusTree } from '@kaiseratlas/parser';
 import { Listr } from 'listr2';
 import * as fs from 'fs';
+import * as path from 'path';
 import { FocusFilter } from '@kaiseratlas/parser/dist/common/goals/classes/focus-filter.class';
 
 @Command({ name: 'snapshots' })
@@ -12,6 +13,7 @@ export class SnapshotsCommand implements CommandRunner {
   async run(passedParam: string[]): Promise<void> {
     const gamePath = this.configService.get<string>('GAME_PATH');
     const modPath = this.configService.get<string>('MOD_PATH');
+    const version = '0.13.1';
 
     const hoi4 = Game.fromPath(gamePath, {
       modPath,
@@ -19,7 +21,6 @@ export class SnapshotsCommand implements CommandRunner {
     let kr: Parser;
     let trees: FocusTree[];
     const treesJSON = [];
-    const sharedFocusesJSON = [];
     const filtersJSON = [];
     let processed = 0;
     const filtersMap = new Map<FocusFilter['id'], FocusFilter>();
@@ -114,7 +115,12 @@ export class SnapshotsCommand implements CommandRunner {
                       throw Error(`no icon, focus: ${focus.id}`);
                     }
 
-                    const filename = `../website/public/assets/0.20.1/icons/${icon.id}.png`;
+                    const filename = `../website/public/assets/${version}/icons/${icon.id}.png`;
+                    const dir = path.dirname(filename);
+
+                    if (!fs.existsSync(dir)) {
+                      fs.mkdirSync(dir, { recursive: true });
+                    }
 
                     if (!!icon?.id && !fs.existsSync(filename)) {
                       await fs.promises.writeFile(
@@ -143,8 +149,16 @@ export class SnapshotsCommand implements CommandRunner {
                     };
                   }),
                 );
+
+                const filename = `../website/public/assets/${version}/shared_focuses.json`;
+                const dir = path.dirname(filename);
+
+                if (!fs.existsSync(dir)) {
+                  fs.mkdirSync(dir, { recursive: true });
+                }
+
                 await fs.promises.writeFile(
-                  '../website/public/assets/0.20.1/shared_focuses.json',
+                  filename,
                   JSON.stringify(sharedFocusesJSON),
                 );
               },
@@ -152,8 +166,14 @@ export class SnapshotsCommand implements CommandRunner {
             {
               title: 'Writing focus trees JSON to file...',
               task: async (): Promise<void> => {
+                const filename = `../website/public/assets/${version}/trees.json`;
+                const dir = path.dirname(filename);
+
+                if (!fs.existsSync(dir)) {
+                  fs.mkdirSync(dir, { recursive: true });
+                }
                 await fs.promises.writeFile(
-                  '../website/public/assets/0.20.1/trees.json',
+                  filename,
                   JSON.stringify(treesJSON),
                 );
               },
@@ -161,7 +181,7 @@ export class SnapshotsCommand implements CommandRunner {
           ]),
       },
       {
-        skip: () => true,
+        //skip: () => true,
         title: 'Generating focus filters snapshot...',
         task: (ctx, task) =>
           task.newListr([
@@ -204,7 +224,13 @@ export class SnapshotsCommand implements CommandRunner {
                   [...filtersMap.values()].map((focusFilter) => ({
                     task: async (): Promise<void> => {
                       const filterIcon = await focusFilter.getIcon();
-                      const filename = `../website/public/assets/0.20.1/icons/filters/GFX_${focusFilter.id}.png`;
+                      const filename = `../website/public/assets/${version}/icons/filters/GFX_${focusFilter.id}.png`;
+
+                      const dir = path.dirname(filename);
+
+                      if (!fs.existsSync(dir)) {
+                        fs.mkdirSync(dir, { recursive: true });
+                      }
 
                       if (filterIcon && !fs.existsSync(filename)) {
                         await fs.promises.writeFile(
@@ -220,8 +246,14 @@ export class SnapshotsCommand implements CommandRunner {
             {
               title: 'Writing focus filters JSON to file...',
               task: async (): Promise<void> => {
+                const filename = `../website/public/assets/${version}/filters.json`;
+                const dir = path.dirname(filename);
+
+                if (!fs.existsSync(dir)) {
+                  fs.mkdirSync(dir, { recursive: true });
+                }
                 await fs.promises.writeFile(
-                  '../website/public/assets/0.20.1/filters.json',
+                  filename,
                   JSON.stringify(filtersJSON),
                 );
               },
@@ -253,15 +285,21 @@ export class SnapshotsCommand implements CommandRunner {
 
                 if (!icon) {
                   throw Error(`no icon, focus: ${focus.id}`);
-                }
+                } else {
+                  const filename = `../website/public/assets/${version}/icons/${icon.id}.png`;
 
-                const filename = `../website/public/assets/0.20.1/icons/${icon.id}.png`;
+                  const dir = path.dirname(filename);
 
-                if (!!icon?.id && !fs.existsSync(filename)) {
-                  await fs.promises.writeFile(
-                    filename,
-                    await icon.png.toBuffer(),
-                  );
+                  if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir, { recursive: true });
+                  }
+
+                  if (!!icon?.id && !fs.existsSync(filename)) {
+                    await fs.promises.writeFile(
+                      filename,
+                      await icon.png.toBuffer(),
+                    );
+                  }
                 }
 
                 return {
@@ -284,10 +322,15 @@ export class SnapshotsCommand implements CommandRunner {
                 };
               }),
             );
-            await fs.promises.writeFile(
-              `../website/public/assets/0.20.1/trees/${tree.id}.json`,
-              JSON.stringify(focusesJSON),
-            );
+
+            const filename = `../website/public/assets/${version}/trees/${tree.id}.json`;
+            const dir = path.dirname(filename);
+
+            if (!fs.existsSync(dir)) {
+              fs.mkdirSync(dir, { recursive: true });
+            }
+
+            await fs.promises.writeFile(filename, JSON.stringify(focusesJSON));
             processed++;
             task.output = `Generating focus snapshots for tree: ${tree.id} (${processed} / ${trees.length}) ...`;
           }

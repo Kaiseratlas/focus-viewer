@@ -2,10 +2,9 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../../app/store';
 
-import { Release } from './typings';
 import { selectReleaseByVersion } from './releases.slice';
 
-export function useSelectedRelease(): Release | null {
+export function useSelectedRelease() {
   const { selected } = useSelector((state: RootState) => state.releases);
 
   const release = useSelector((state: RootState) =>
@@ -13,8 +12,8 @@ export function useSelectedRelease(): Release | null {
   );
 
   if (!release) {
-    return null;
+    return { selected: null, outdated: false };
   }
 
-  return release;
+  return { selected: release, outdated: release.version !== '0.20.1' };
 }
