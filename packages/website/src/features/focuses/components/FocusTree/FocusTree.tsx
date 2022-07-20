@@ -22,6 +22,7 @@ interface Props extends _ReactPixi.IStage {
   selectedBranches: FocusId[];
   searchFilters: FocusFilterId[];
   onMount?: _ReactPixi.IStage['onMount'];
+  onFocusClick?: (focus: Focus) => void;
   treeOptions?: {
     showLinks: boolean;
   };
@@ -35,6 +36,7 @@ const FocusTree: FC<Props> = (props) => {
     selectedBranches,
     focuses: data,
     onMount,
+    onFocusClick,
     treeOptions,
     ...stageProps
   } = props;
@@ -72,7 +74,7 @@ const FocusTree: FC<Props> = (props) => {
     }
   }, [app]);
 
-  const [refMap, setRefMap] = useState(new Map<string, PIXI.Sprite>());
+  const [refMap, setRefMap] = useState(new Map<FocusId, PIXI.Sprite>());
 
   const initialFocuses = useMemo(
     () => data.filter((focus) => !focus.relativePositionId) ?? [],
@@ -114,6 +116,7 @@ const FocusTree: FC<Props> = (props) => {
               onMount={(id, ref) => {
                 setRefMap(new Map(refMap.set(id, ref)));
               }}
+              onFocusClick={onFocusClick}
             />
           ))}
         </Container>

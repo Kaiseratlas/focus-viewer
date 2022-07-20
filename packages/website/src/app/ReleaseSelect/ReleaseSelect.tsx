@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import { ItemListPredicate, ItemRenderer, Select2 } from '@blueprintjs/select';
+import { ItemListPredicate, Select2 } from '@blueprintjs/select';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
@@ -95,7 +95,7 @@ const ReleaseSelect: FC = () => {
           .map(Number);
 
         return (
-          <>
+          <React.Fragment key={release.version}>
             {((!asc && release.isFinal) || (asc && patch === 0)) && showAll && (
               <MenuDivider
                 title={
@@ -119,7 +119,6 @@ const ReleaseSelect: FC = () => {
             )}
             <MenuItem
               disabled={modifiers.disabled}
-              key={release.version}
               onClick={handleClick}
               onFocus={handleFocus}
               labelElement={<Tag minimal>{release.version}</Tag>}
@@ -145,7 +144,7 @@ const ReleaseSelect: FC = () => {
                 </>
               }
             />
-          </>
+          </React.Fragment>
         );
       }}
       itemListPredicate={releaseListPredicate}

@@ -18,6 +18,7 @@ import { debug } from '../utils';
 interface Props {
   data: Focus;
   onMount?: (...args: any[]) => void;
+  onClick?: (focus: Focus) => void;
   matched: boolean;
 }
 
@@ -31,7 +32,7 @@ const Filter = withFilters(Container, {
 });
 
 const FocusView: FC<Props> = (props) => {
-  const { data, onMount, matched } = props;
+  const { data, onMount, matched, onClick } = props;
   const ref = useRef<PIXI.Sprite>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -55,7 +56,12 @@ const FocusView: FC<Props> = (props) => {
       interactive: true,
       pointerover: () => setHovered(true),
       pointerout: () => setHovered(false),
-      pointerdown: () => console.log(data),
+      pointerdown: () => {
+        console.log(data)
+        if (onClick) {
+          onClick(data);
+        }
+      },
       //pointerdown: () => debug('clicked on focus: %o', data),
     }),
     [],

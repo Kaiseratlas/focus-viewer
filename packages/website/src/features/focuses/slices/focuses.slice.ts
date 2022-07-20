@@ -1,7 +1,9 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { EntityId } from '@reduxjs/toolkit/src/entities/models';
+import { useSelector } from 'react-redux';
 
 import { RootState } from '../../../app/store';
-import { Focus } from '../typings';
+import { Focus, FocusId } from '../typings';
 import { fetchFocuses } from '../routines';
 
 const focusesAdapter = createEntityAdapter<Focus>();
@@ -54,3 +56,7 @@ export const {
   selectEntities: selectFocusEntities,
   selectAll: selectAllFocuses,
 } = focusesAdapter.getSelectors<RootState>((state) => state.focuses.data);
+
+export const selectFocusesByIds = (state: RootState, ids: EntityId[]) =>
+  ids.map((id) => selectFocusById(state, id)).filter(Boolean) as Focus[];
+

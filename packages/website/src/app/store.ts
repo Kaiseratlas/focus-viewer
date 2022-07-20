@@ -18,13 +18,19 @@ export const store = configureStore({
     releases: releasesReducer,
     focusFilters: focusFiltersReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
+  middleware: (getDefaultMiddleware) => {
+    const middleware = getDefaultMiddleware({
       serializableCheck: false,
       thunk: false,
-    })
-      .concat(logger)
-      .concat(sagaMiddleware),
+      devTools: true,
+    }).concat(sagaMiddleware);
+
+    if (process.env.NODE_ENV === 'development') {
+      middleware.push(logger as any);
+    }
+
+    return middleware;
+  },
 });
 
 sagaMiddleware.run(rootSaga);

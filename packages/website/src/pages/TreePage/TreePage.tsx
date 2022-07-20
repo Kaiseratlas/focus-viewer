@@ -33,6 +33,7 @@ import { useSelectedRelease } from '../../features/releases';
 
 import { TreeViewMode } from './tree-view-mode.enum';
 import { TreeToolbar } from './components/TreeToolbar/TreeToolbar';
+import { FocusInfoDialog } from './FocusInfoDialog';
 
 function uniqueByKey<T = Record<string, unknown>>(
   array: Array<T>,
@@ -94,6 +95,8 @@ function useLockBodyScroll() {
 
 const TreePage: FC = () => {
   useLockBodyScroll();
+
+  const [selectedFocus, setSelectedFocus] = useState<Focus>();
 
   const { id: treeId } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams({
@@ -173,6 +176,8 @@ const TreePage: FC = () => {
     );
   }
 
+  console.log('sele', selectedFocus);
+
   return (
     <>
       <Breadcrumbs items={breadcrumbs} />
@@ -180,6 +185,12 @@ const TreePage: FC = () => {
         onBranchSelect={setSelectedBranches}
         onLinks={() => setShowLinks(!showLinks)}
       />
+      {selectedFocus && (
+        <FocusInfoDialog
+          focus={selectedFocus}
+          onClose={() => setSelectedFocus(undefined)}
+        />
+      )}
       {currentMode === TreeViewMode.TREE && (
         <FocusTree
           baseAssetsUrl={`${process.env.PUBLIC_URL}/assets/${selected?.version}/icons/`}
@@ -194,6 +205,7 @@ const TreePage: FC = () => {
           )}
           width={width - 40}
           height={height - 200}
+          onFocusClick={setSelectedFocus}
           treeOptions={{
             showLinks,
           }}

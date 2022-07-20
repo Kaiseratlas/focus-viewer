@@ -8,6 +8,7 @@ export type Focus = {
   readonly x: number;
   readonly y: number;
   readonly name: string;
+  readonly description: string;
   readonly icon: string;
   readonly cost: number;
   readonly prerequisiteFocusIds: string[];

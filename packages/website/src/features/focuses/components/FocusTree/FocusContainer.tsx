@@ -10,10 +10,11 @@ interface Props extends _ReactPixi.IContainer {
   allFocuses: any[];
   searchFilters: string[];
   onMount: (focusId: string, current: any) => void;
+  onFocusClick?: (focus: Focus) => void;
 }
 
 const FocusContainer: FC<Props> = (props) => {
-  const { focus, allFocuses, searchFilters, onMount, ...containerProps } =
+  const { focus, allFocuses, searchFilters, onMount, onFocusClick, ...containerProps } =
     props;
 
   const childFocuses = useMemo(
@@ -26,6 +27,7 @@ const FocusContainer: FC<Props> = (props) => {
       <FocusView
         data={focus}
         onMount={onMount}
+        onClick={onFocusClick}
         matched={focus.searchFilters.some((focusFilterId) =>
           searchFilters.includes(focusFilterId),
         )}
@@ -36,6 +38,7 @@ const FocusContainer: FC<Props> = (props) => {
           allFocuses={allFocuses}
           focus={childFocus}
           onMount={onMount}
+          onFocusClick={onFocusClick}
           searchFilters={searchFilters}
         />
       ))}
