@@ -1,6 +1,6 @@
 {
   "name": "@kaiseratlas/focus-viewer-website",
-  "homepage": "http://pereslavtsev.github.io/focus-viewer/",
+  "homepage": "http://kaiseratlas.github.io/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

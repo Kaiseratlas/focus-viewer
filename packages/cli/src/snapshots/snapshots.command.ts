@@ -13,7 +13,7 @@ export class SnapshotsCommand implements CommandRunner {
   async run(passedParam: string[]): Promise<void> {
     const gamePath = this.configService.get<string>('GAME_PATH');
     const modPath = this.configService.get<string>('MOD_PATH');
-    const version = '0.13.1';
+    const version = '0.22';
 
     const hoi4 = Game.fromPath(gamePath, {
       modPath,

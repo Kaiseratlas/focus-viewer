@@ -9,6 +9,12 @@ const RELEASES: Release[] = [
   //   isFinal: true,
   // },
   {
+    name: 'Shattered Crescent',
+    version: '0.22',
+    date: new Date('2022-08-27'),
+    isFinal: true,
+  },
+  {
     name: 'A World Aflame',
     version: '0.21.1',
     date: new Date('2022-06-18'),
