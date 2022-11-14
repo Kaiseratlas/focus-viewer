@@ -4,16 +4,16 @@ import Parser, { Game, FocusTree } from '@kaiseratlas/parser';
 import { Listr } from 'listr2';
 import * as fs from 'fs';
 import * as path from 'path';
-import { FocusFilter } from '@kaiseratlas/parser/dist/common/goals/classes/focus-filter.class';
+import { FocusFilter } from '@kaiseratlas/parser1/dist/common/goals/classes/focus-filter.class';
 
 @Command({ name: 'snapshots' })
 export class SnapshotsCommand implements CommandRunner {
   constructor(private configService: ConfigService) {}
 
-  async run(passedParam: string[]): Promise<void> {
+  async run(): Promise<void> {
     const gamePath = this.configService.get<string>('GAME_PATH');
     const modPath = this.configService.get<string>('MOD_PATH');
-    const version = '0.22';
+    const version = '0.23';
 
     const hoi4 = Game.fromPath(gamePath, {
       modPath,
@@ -284,7 +284,9 @@ export class SnapshotsCommand implements CommandRunner {
                 ]);
 
                 if (!icon) {
-                  throw Error(`no icon, focus: ${focus.id}`);
+                  //throw Error(`no icon, focus: ${focus.id}`);
+                  console.error(icon);
+
                 } else {
                   const filename = `../website/public/assets/${version}/icons/${icon.id}.png`;
 

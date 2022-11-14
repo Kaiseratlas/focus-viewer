@@ -15,5 +15,5 @@ export function useSelectedRelease() {
     return { selected: null, outdated: false };
   }
 
-  return { selected: release, outdated: release.version !== '0.22' };
+  return { selected: release, outdated: release.version !== '0.23' };
 }
