@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Button, Navbar } from '@blueprintjs/core';
+import { Link } from 'react-router-dom';
 
 import { Search } from '../Search/Search';
 import { ReleaseSelect } from '../ReleaseSelect/ReleaseSelect';
@@ -20,6 +21,7 @@ const AppNavbar: FC = () => {
             large
             onClick={() => setOpened(!opened)}
           />
+          <Link to="/" className={styles['app-navbar__logo']} />
         </Navbar.Group>
         <Navbar.Group align="center">
           <Search />

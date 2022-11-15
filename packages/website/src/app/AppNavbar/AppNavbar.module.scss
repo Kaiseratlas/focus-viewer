@@ -1,4 +1,12 @@
 .app-navbar {
   display: flex;
   justify-content: space-between;
+
+  &__logo {
+    background: url("../../../public/kaiseratlas.svg") center center no-repeat;
+    background-size: contain;
+    width: 120px;
+    height: 30px;
+    margin-left: 10px;
+  }
 }
